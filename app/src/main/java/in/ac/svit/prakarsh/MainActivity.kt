@@ -1,5 +1,6 @@
 package `in`.ac.svit.prakarsh
 
+import `in`.ac.svit.prakarsh.R.id.action_home
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -11,6 +12,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        main_navigation.selectedItemId=action_home
         startFragmentTransaction(HomeFragment())
     }
 
