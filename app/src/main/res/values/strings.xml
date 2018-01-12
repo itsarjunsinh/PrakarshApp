@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">Prakarsh 18</string>
+    <string name="app_name">Prakarsh XIII</string>
+    <string name="event_name">Prakarsh XIII</string>
     <string name="navigation_events">Events</string>
     <string name="navigation_home">Home</string>
     <string name="navigation_about">About</string>
