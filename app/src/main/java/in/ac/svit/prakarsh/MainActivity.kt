@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_about -> {
-                //startFragmentTransaction(AboutFragment())
+                startFragmentTransaction(AboutFragment())
                 return@OnNavigationItemSelectedListener true
             }
         }
