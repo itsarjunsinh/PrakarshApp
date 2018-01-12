@@ -15,14 +15,13 @@ import java.util.*
 class HomeFragment : Fragment()  {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        inflater.inflate(R.layout.fragment_home,container)
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return inflater.inflate(R.layout.fragment_home,container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        var timer = activity?.home_txt_timer
+        var timer = home_txt_timer
 
         val prakarshDate = Calendar.getInstance()
         prakarshDate.set(2018,0,27,10,0)

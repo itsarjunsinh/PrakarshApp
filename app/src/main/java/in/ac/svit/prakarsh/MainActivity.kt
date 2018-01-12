@@ -1,6 +1,7 @@
 package `in`.ac.svit.prakarsh
 
 import `in`.ac.svit.prakarsh.R.id.action_home
+import `in`.ac.svit.prakarsh.R.id.navigation_header_container
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         main_navigation.selectedItemId=action_home
         startFragmentTransaction(HomeFragment())
+        main_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
