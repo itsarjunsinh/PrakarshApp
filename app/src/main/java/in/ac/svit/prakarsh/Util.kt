@@ -10,24 +10,24 @@ import java.util.*
 
 open class Util {
     companion object {
-        fun startCountdown(txt_timer: TextView, eventDate: Calendar) {
+        fun startCountdown(timer: TextView, eventDate: Calendar) {
             val finishedText = "Prakarsh ${eventDate.get(Calendar.YEAR)}!"
             val today = Calendar.getInstance()
             val timeInterval = eventDate.timeInMillis - today.timeInMillis
             if (timeInterval>1){
                 val countDown = object : CountDownTimer(timeInterval, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
-                        txt_timer.text = (remainingTimeText(millisUntilFinished))
+                        timer.text = (remainingTimeText(millisUntilFinished))
                     }
 
                     override fun onFinish() {
-                        txt_timer.text = finishedText
+                        timer.text = finishedText
                     }
                 }
                 countDown.start()
             }
             else{
-                txt_timer.text=finishedText
+                timer.text=finishedText
             }
         }
         fun remainingTimeText(millisLeft: Long): String {
@@ -44,9 +44,12 @@ open class Util {
 
             if (remainingDays>0)
             {
-                remainingText="$remainingDays days : "
+                remainingText="$remainingDays Days"
             }
-            remainingText+= String.format("%02d hours : %02d minutes: %02d seconds",remainingHours,remainingMinutes,remaingSeconds)
+
+            remainingText += "\n"
+
+            remainingText += String.format("%02d Hours : %02d Minutes: %02d Seconds",remainingHours,remainingMinutes,remaingSeconds)
             return remainingText
         }
     }
