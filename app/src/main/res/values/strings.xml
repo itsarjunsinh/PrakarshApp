@@ -4,5 +4,7 @@
     <string name="navigation_events">Events</string>
     <string name="navigation_home">Home</string>
     <string name="navigation_about">About</string>
+    <string name="about_sponsors">Sponsors</string>
+    <string name="about_team">Team</string>
     <string name="url_about">https://svitprakarsh.github.io/PrakarshJSON/about.json</string>
 </resources>
