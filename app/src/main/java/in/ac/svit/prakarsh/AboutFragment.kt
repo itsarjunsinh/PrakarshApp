@@ -38,7 +38,7 @@ class AboutFragment : Fragment() {
                     Response.Listener {
                         response ->
                         Log.d(javaClass.name,"JSON Successfully fetched")
-                        about_txt_description.text=response["about"].toString()
+                        about_txt_description?.text=response["about"].toString()
                     }, Response.ErrorListener {
                 error ->
                 Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
