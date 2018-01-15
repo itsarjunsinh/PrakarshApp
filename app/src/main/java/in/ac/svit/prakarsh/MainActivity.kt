@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.action_events -> {
-                //startFragmentTransaction(EventsFragment())
+                startFragmentTransaction(EventsCategoryFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_home -> {
