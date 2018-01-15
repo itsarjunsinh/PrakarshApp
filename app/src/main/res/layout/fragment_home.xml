@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/home_guideline_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/home_guideline_header"
@@ -27,7 +27,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="8dp"
-        android:text="23 Hours : 12 Minutes : 14 Seconds"
         app:layout_constraintTop_toBottomOf="@id/home_guideline_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +36,7 @@
         android:textColor="@android:color/primary_text_dark"
         android:background="@android:color/background_dark"
         app:autoSizeTextType="uniform"
-        android:maxLines="2"/>
+        android:maxLines="2" />
 
     <android.support.constraint.Guideline
         android:id="@+id/home_guideline_timer"
