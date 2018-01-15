@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="height_listitem_category">88dp</dimen>
+    <dimen name="textsize_listitem_title">16sp</dimen>
+    <dimen name="textsize_listitem_description">13sp</dimen>
+</resources>
