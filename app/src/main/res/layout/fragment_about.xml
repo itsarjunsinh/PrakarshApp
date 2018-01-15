@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/about_guideline_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/about_guideline_header"
@@ -27,19 +27,39 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="8dp"
-        android:text="About text"
+        android:text=""
         app:layout_constraintTop_toBottomOf="@id/about_guideline_header"
+        app:layout_constraintBottom_toTopOf="@id/about_btn_sponsors"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/about_guideline_description"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:autoSizeTextType="uniform"/>
+        app:autoSizeTextType="uniform" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/about_guideline_description"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/about_btn_sponsors"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/about_sponsors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/about_btn_team"
+        android:textColor="@android:color/primary_text_dark"
+        android:background="@color/colorPrimary" />
+
+    <Button
+        android:id="@+id/about_btn_team"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/about_team"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/about_btn_sponsors"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@android:color/primary_text_dark"
+        android:background="@color/colorPrimary" />
 
 </android.support.constraint.ConstraintLayout>
