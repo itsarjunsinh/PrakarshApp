@@ -10,6 +10,7 @@ import java.util.*
  */
 
 open class Util {
+
     fun startCountdown(timer: TextView?, eventDate: Calendar, context: Context?) {
         val finishedText = "${context?.getString(R.string.event_name)}!"
         val today = Calendar.getInstance()

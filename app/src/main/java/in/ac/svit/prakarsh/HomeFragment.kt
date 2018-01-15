@@ -22,11 +22,11 @@ class HomeFragment : Fragment()  {
         super.onViewCreated(view, savedInstanceState)
 
         var timer = home_txt_timer
-
-        val prakarshDate = Calendar.getInstance()
-        prakarshDate.set(2018,0,27,10,0)
-
         val util = Util()
+        val prakarshDate = Calendar.getInstance()
+
+        prakarshDate.set(2018,1,21,10,0)
+
         util.startCountdown(timer, prakarshDate, context)
     }
 }
