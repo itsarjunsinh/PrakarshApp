@@ -10,47 +10,48 @@ import java.util.*
  */
 
 open class Util {
+    companion object {
 
-    fun startCountdown(timer: TextView?, eventDate: Calendar, context: Context?) {
-        val finishedText = "${context?.getString(R.string.event_name)}!"
-        val today = Calendar.getInstance()
-        val timeInterval = eventDate.timeInMillis - today.timeInMillis
-        if (timeInterval>1){
-            val countDown = object : CountDownTimer(timeInterval, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    timer?.text = (remainingTimeText(millisUntilFinished))
-                }
+        fun startCountdown(timer: TextView?, eventDate: Calendar, context: Context?) {
+            val finishedText = "${context?.getString(R.string.event_name)}!"
+            val today = Calendar.getInstance()
+            val timeInterval = eventDate.timeInMillis - today.timeInMillis
+            if (timeInterval > 1) {
+                val countDown = object : CountDownTimer(timeInterval, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        timer?.text = (remainingTimeText(millisUntilFinished))
+                    }
 
-                override fun onFinish() {
-                    timer?.text = finishedText
+                    override fun onFinish() {
+                        timer?.text = finishedText
+                    }
                 }
+                countDown.start()
+            } else {
+                timer?.text = finishedText
             }
-            countDown.start()
-        }
-        else{
-            timer?.text=finishedText
-        }
-    }
-    fun remainingTimeText(millisLeft: Long): String {
-        val SECOND = 1000
-        val MINUTE = SECOND * 60
-        val HOUR = MINUTE * 60
-        val DAY = HOUR * 24
-
-        val remainingDays = (millisLeft / DAY)
-        val remainingHours = (millisLeft % DAY) / HOUR
-        val remainingMinutes = (millisLeft % HOUR) / MINUTE
-        val remaingSeconds = (millisLeft % MINUTE) / SECOND
-        var remainingText = ""
-
-        if (remainingDays>0)
-        {
-            remainingText="$remainingDays Days"
         }
 
-        remainingText += "\n"
+        fun remainingTimeText(millisLeft: Long): String {
+            val SECOND = 1000
+            val MINUTE = SECOND * 60
+            val HOUR = MINUTE * 60
+            val DAY = HOUR * 24
 
-        remainingText += String.format("%02d Hours : %02d Minutes: %02d Seconds",remainingHours,remainingMinutes,remaingSeconds)
-        return remainingText
+            val remainingDays = (millisLeft / DAY)
+            val remainingHours = (millisLeft % DAY) / HOUR
+            val remainingMinutes = (millisLeft % HOUR) / MINUTE
+            val remaingSeconds = (millisLeft % MINUTE) / SECOND
+            var remainingText = ""
+
+            if (remainingDays > 0) {
+                remainingText = "$remainingDays Days"
+            }
+
+            remainingText += "\n"
+
+            remainingText += String.format("%02d Hours : %02d Minutes: %02d Seconds", remainingHours, remainingMinutes, remaingSeconds)
+            return remainingText
+        }
     }
 }
