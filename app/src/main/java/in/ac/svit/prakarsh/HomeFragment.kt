@@ -21,12 +21,11 @@ class HomeFragment : Fragment()  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var timer = home_txt_timer
         val util = Util()
         val prakarshDate = Calendar.getInstance()
 
-        prakarshDate.set(2018,1,21,10,0)
+        prakarshDate.set(2018,1,21,10,0,0)
 
-        util.startCountdown(timer, prakarshDate, context)
+        util.startCountdown(home_txt_timer, prakarshDate, context)
     }
 }
