@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TeamCategoryActivity" />
+        <activity android:name=".EventsSubcategoryActivity" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
