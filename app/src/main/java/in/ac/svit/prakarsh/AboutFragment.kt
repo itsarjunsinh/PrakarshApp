@@ -1,6 +1,7 @@
 package `in`.ac.svit.prakarsh
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -28,6 +29,9 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateViewsFromJson()
+        about_btn_team.setOnClickListener{
+            startActivity(Intent(context,TeamCategoryActivity::class.java))
+        }
     }
 
     private fun updateViewsFromJson() {
