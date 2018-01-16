@@ -8,4 +8,5 @@
     <string name="about_team">Team</string>
     <string name="url_about">https://svitprakarsh.github.io/PrakarshJSON/about.json</string>
     <string name="url_events_category">https://svitprakarsh.github.io/PrakarshJSON/events/category.json</string>
+    <string name="url_team_category">https://svitprakarsh.github.io/PrakarshJSON/teams/category.json</string>
 </resources>
