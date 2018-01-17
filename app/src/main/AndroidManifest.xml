@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".TeamCategoryActivity" />
         <activity android:name=".EventsSubcategoryActivity" />
+        <activity android:name=".TeamInfoActivity" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
