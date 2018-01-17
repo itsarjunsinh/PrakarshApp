@@ -1,6 +1,7 @@
 package `in`.ac.svit.prakarsh
 
 import android.content.Context
+import android.content.Intent
 import android.os.CountDownTimer
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -66,7 +67,7 @@ open class Util {
             return remainingText
         }
 
-        fun loadCategoryRecycler(recyclerView: RecyclerView?, url: String?, context: Context?) {
+        fun loadCategoryRecycler(recyclerView: RecyclerView?, url: String?, context: Context?, intent: Intent) {
             recyclerView?.layoutManager = GridLayoutManager(context,2)
             val que = Volley.newRequestQueue(context)
             val req = JsonObjectRequest(Request.Method.GET,url,null,
@@ -79,7 +80,7 @@ open class Util {
                             val eventTitle = jsonArray.getJSONObject(i).getString("name")
                             dataAdapterList.add(CategoryDataAdapter(eventTitle))
                         }
-                        recyclerView?.adapter = CategoryRecyclerAdapter(dataAdapterList)
+                        recyclerView?.adapter = CategoryRecyclerAdapter(intent, context, dataAdapterList)
                     }, Response.ErrorListener {
                 error ->
                 Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
@@ -89,7 +90,7 @@ open class Util {
 
         class CategoryDataAdapter(val title: String)
 
-        class CategoryRecyclerAdapter(private val dataAdapterList: ArrayList<CategoryDataAdapter>): RecyclerView.Adapter<CategoryRecyclerAdapter.CustomViewHolder>() {
+        class CategoryRecyclerAdapter(private val intent: Intent, private val context: Context?, private val dataAdapterList: ArrayList<CategoryDataAdapter>): RecyclerView.Adapter<CategoryRecyclerAdapter.CustomViewHolder>() {
 
             class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view)
 
@@ -105,11 +106,13 @@ open class Util {
 
             override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
                 val tempDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                holder?.view?.category_txt_title?.text = dataAdapterList.get(position).title
+                holder?.view?.category_txt_title?.text = dataAdapterList[position].title
                 holder?.view?.category_txt_description?.text = tempDescription
                 holder?.view?.setOnClickListener{
                     // Implement onClickListener
-                    Log.d(javaClass.name,"${dataAdapterList.get(position).title} Clicked")
+                    Log.d(javaClass.name,"${dataAdapterList[position].title} Clicked")
+                    intent.putExtra("url", "temp")
+                    context?.startActivity(intent)
                 }
             }
         }

@@ -1,5 +1,6 @@
 package `in`.ac.svit.prakarsh
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_team_category.*
@@ -15,6 +16,7 @@ class TeamCategoryActivity: AppCompatActivity() {
 
         val url = getString(R.string.url_team_category)
 
-        Util.loadCategoryRecycler(team_category_rv_main, url, applicationContext)
+        val intent = Intent(applicationContext, TeamInfoActivity::class.java)
+        Util.loadCategoryRecycler(team_category_rv_main, url, applicationContext, intent)
     }
 }
