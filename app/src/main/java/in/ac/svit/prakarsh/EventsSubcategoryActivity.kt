@@ -49,14 +49,7 @@ class EventsSubcategoryActivity : AppCompatActivity() {
                         }
 
                         events_subcategory_sv_main.adapter = StackAdapter(this, subcategoryList)
-                        events_subcategory_sv_main.setOnItemClickListener {
-                            parent, view, position, id ->
-                                Log.d(javaClass.name,"${subcategoryList[position].name} Clicked")
 
-                                val intent = Intent(applicationContext, EventInfoActivity::class.java)
-                                intent.putExtra("url", subcategoryList[position].dataUrl)
-                                startActivity(intent)
-                        }
                     }, Response.ErrorListener {
                 error ->
                 Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
@@ -74,13 +67,14 @@ class EventsSubcategoryActivity : AppCompatActivity() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = LayoutInflater.from(context).inflate(R.layout.item_subcategory, parent, false)
 
-            view.subcategory_txt_title?.text=subcategoryList[position].name
-            view.subcategory_txt_tagline?.text=subcategoryList[position].tagline
-            view.subcategory_img_banner
-            view.subcategory_img_banner.setDefaultImageResId(R.drawable.ic_image_black)
-            view.subcategory_img_banner.setImageUrl(subcategoryList[position].imageUrl,VolleySingleton.getInstance(applicationContext).imageLoader)
-            view.subcategory_img_banner.setDefaultImageResId(R.drawable.ic_image_black)
-            view.subcategory_img_banner.setErrorImageResId(R.drawable.ic_broken_image_black)
+            view?.subcategory_txt_title?.text=subcategoryList[position].name
+            view?.subcategory_txt_tagline?.text=subcategoryList[position].tagline
+            view?.subcategory_img_banner?.setDefaultImageResId(R.drawable.ic_image_black)
+            view?.subcategory_img_banner?.setImageUrl(subcategoryList[position].imageUrl,VolleySingleton.getInstance(applicationContext).imageLoader)
+            view?.subcategory_img_banner?.setDefaultImageResId(R.drawable.ic_image_black)
+            view?.subcategory_img_banner?.setErrorImageResId(R.drawable.ic_broken_image_black)
+            view?.setOnClickListener{ openEventInfo(position) }
+            view?.subcategory_btn_info?.setOnClickListener{ openEventInfo(position) }
 
             Log.d(javaClass.name,"Returning ${subcategoryList[position].name} view")
             return view
@@ -96,6 +90,14 @@ class EventsSubcategoryActivity : AppCompatActivity() {
 
         override fun getCount(): Int {
             return subcategoryList.size
+        }
+
+        fun openEventInfo(position: Int){
+            Log.d(javaClass.name,"${subcategoryList[position].name} Clicked")
+
+            val intent = Intent(applicationContext, EventInfoActivity::class.java)
+            intent.putExtra("url", subcategoryList[position].dataUrl)
+            startActivity(intent)
         }
 
     }
