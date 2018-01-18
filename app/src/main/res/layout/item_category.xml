@@ -31,12 +31,11 @@
             android:layout_height="56dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:paddingStart="16dp"
             app:layout_constraintTop_toBottomOf="@id/category_txt_title"
             app:layout_constraintBottom_toTopOf="@id/category_txt_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_navigation_people_black" />
+            app:srcCompat="@drawable/ic_image_black" />
 
         <TextView
             android:id="@+id/category_txt_description"
