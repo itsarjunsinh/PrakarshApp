@@ -110,6 +110,9 @@ open class Util {
             override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
                 holder?.view?.category_txt_title?.text = dataAdapterList[position].title
                 holder?.view?.category_txt_description?.text = dataAdapterList[position].description
+                holder?.view?.category_img_icon?.setDefaultImageResId(R.drawable.ic_image_black)
+                holder?.view?.category_img_icon?.setErrorImageResId(R.drawable.ic_broken_image_black)
+                holder?.view?.category_img_icon?.setImageUrl(dataAdapterList[position].iconUrl,VolleySingleton.getInstance(context).imageLoader)
                 holder?.view?.setOnClickListener{
                     Log.d(javaClass.name,"${dataAdapterList[position].title} Clicked")
                     intent.putExtra("url", dataAdapterList[position].dataUrl)
