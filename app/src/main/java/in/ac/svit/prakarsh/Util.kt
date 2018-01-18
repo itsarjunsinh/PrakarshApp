@@ -77,8 +77,11 @@ open class Util {
                         val jsonArray: JSONArray = response.getJSONArray("category")
                         var dataAdapterList: ArrayList<CategoryDataAdapter> = ArrayList()
                         for (i in 0..(jsonArray.length()-1)){
-                            val eventTitle = jsonArray.getJSONObject(i).getString("name")
-                            dataAdapterList.add(CategoryDataAdapter(eventTitle))
+                            val name = jsonArray.getJSONObject(i).getString("name")
+                            val description = jsonArray.getJSONObject(i).getString("description")
+                            val iconUrl = jsonArray.getJSONObject(i).getString("iconUrl")
+                            val dataUrl = jsonArray.getJSONObject(i).getString("dataUrl")
+                            dataAdapterList.add(CategoryDataAdapter(name,description,iconUrl,dataUrl))
                         }
                         recyclerView?.adapter = CategoryRecyclerAdapter(intent, context, dataAdapterList)
                     }, Response.ErrorListener {
@@ -88,7 +91,7 @@ open class Util {
             que.add(req)
         }
 
-        class CategoryDataAdapter(val title: String)
+        class CategoryDataAdapter(val title: String, val description: String,val iconUrl: String, val dataUrl: String)
 
         class CategoryRecyclerAdapter(private val intent: Intent, private val context: Context?, private val dataAdapterList: ArrayList<CategoryDataAdapter>): RecyclerView.Adapter<CategoryRecyclerAdapter.CustomViewHolder>() {
 
@@ -105,13 +108,11 @@ open class Util {
             }
 
             override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
-                val tempDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                 holder?.view?.category_txt_title?.text = dataAdapterList[position].title
-                holder?.view?.category_txt_description?.text = tempDescription
+                holder?.view?.category_txt_description?.text = dataAdapterList[position].description
                 holder?.view?.setOnClickListener{
-                    // Implement onClickListener
                     Log.d(javaClass.name,"${dataAdapterList[position].title} Clicked")
-                    intent.putExtra("url", "temp")
+                    intent.putExtra("url", dataAdapterList[position].dataUrl)
                     context?.startActivity(intent)
                 }
             }
