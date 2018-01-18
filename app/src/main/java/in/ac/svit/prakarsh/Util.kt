@@ -78,10 +78,11 @@ open class Util {
                         var dataAdapterList: ArrayList<CategoryDataAdapter> = ArrayList()
                         for (i in 0..(jsonArray.length()-1)){
                             val name = jsonArray.getJSONObject(i).getString("name")
-                            val description = jsonArray.getJSONObject(i).getString("description")
+                            val tagline = jsonArray.getJSONObject(i).getString("tagline")
+                            val department = jsonArray.getJSONObject(i).getString("department")
                             val iconUrl = jsonArray.getJSONObject(i).getString("iconUrl")
                             val dataUrl = jsonArray.getJSONObject(i).getString("dataUrl")
-                            dataAdapterList.add(CategoryDataAdapter(name,description,iconUrl,dataUrl))
+                            dataAdapterList.add(CategoryDataAdapter(name,tagline,department,iconUrl,dataUrl))
                         }
                         recyclerView?.adapter = CategoryRecyclerAdapter(intent, context, dataAdapterList)
                     }, Response.ErrorListener {
@@ -91,7 +92,7 @@ open class Util {
             que.add(req)
         }
 
-        class CategoryDataAdapter(val title: String, val description: String,val iconUrl: String, val dataUrl: String)
+        class CategoryDataAdapter(val title: String, val tagline: String, val department: String, val iconUrl: String, val dataUrl: String)
 
         class CategoryRecyclerAdapter(private val intent: Intent, private val context: Context?, private val dataAdapterList: ArrayList<CategoryDataAdapter>): RecyclerView.Adapter<CategoryRecyclerAdapter.CustomViewHolder>() {
 
@@ -109,7 +110,8 @@ open class Util {
 
             override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
                 holder?.view?.category_txt_title?.text = dataAdapterList[position].title
-                holder?.view?.category_txt_description?.text = dataAdapterList[position].description
+                holder?.view?.category_txt_tagline?.text = dataAdapterList[position].tagline
+                holder?.view?.category_txt_tagline?.text = dataAdapterList[position].department
                 holder?.view?.category_img_icon?.setDefaultImageResId(R.drawable.ic_image_black)
                 holder?.view?.category_img_icon?.setErrorImageResId(R.drawable.ic_broken_image_black)
                 holder?.view?.category_img_icon?.setImageUrl(dataAdapterList[position].iconUrl,VolleySingleton.getInstance(context).imageLoader)
