@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.ac.svit.prakarsh">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,8 +21,7 @@
         <activity android:name=".TeamCategoryActivity" />
         <activity android:name=".EventsSubcategoryActivity" />
         <activity android:name=".TeamInfoActivity" />
+        <activity android:name=".EventInfoActivity" />
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

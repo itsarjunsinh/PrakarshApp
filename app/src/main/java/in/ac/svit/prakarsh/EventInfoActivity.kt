@@ -1,0 +1,94 @@
+package `in`.ac.svit.prakarsh
+
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import kotlinx.android.synthetic.main.activity_event_info.*
+import kotlinx.android.synthetic.main.item_event_details.view.*
+import org.json.JSONArray
+
+class EventInfoActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_event_info)
+        Log.d(javaClass.name,"Started")
+
+        updateViewsFromJson(intent.getStringExtra("url"))
+    }
+
+    private fun updateViewsFromJson(url: String){
+        try {
+            val que = Volley.newRequestQueue(applicationContext)
+            val req = JsonObjectRequest(Request.Method.GET,url,null,
+                    Response.Listener {
+                        response ->
+                        val eventName = response.getString("eventName")
+                        var eventDetailsList: ArrayList<EventDetails> = ArrayList()
+                        var contactDetailsList: ArrayList<ContactDetails> = ArrayList()
+
+                        Log.d(javaClass.name,"JSON Successfully fetched - $eventName")
+                        supportActionBar?.title=eventName
+
+                        var jsonArray: JSONArray = response.getJSONArray("details")
+                        for (i in 0..(jsonArray.length()-1)) {
+                            val sectionHeader = jsonArray.getJSONObject(i).getString("sectionHeader")
+                            val sectionContent = jsonArray.getJSONObject(i).getString("sectionContent")
+                            Log.d(javaClass.name,"Storing - $sectionHeader")
+                            eventDetailsList.add(EventDetails(sectionHeader, sectionContent))
+                        }
+
+                        jsonArray = response.getJSONArray("contactDetails")
+                        for (i in 0..(jsonArray.length()-1)) {
+                            val name = jsonArray.getJSONObject(i).getString("name")
+                            val number = jsonArray.getJSONObject(i).getString("number")
+                            contactDetailsList.add(ContactDetails(name, number))
+                        }
+                        event_info_rv_details?.layoutManager = LinearLayoutManager(applicationContext)
+                        event_info_rv_details?.adapter = DetailsRecyclerAdapter(eventDetailsList)
+
+                    }, Response.ErrorListener {
+                error ->
+                Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
+            })
+            que.add(req)
+        }catch (e: Exception){
+            Log.d(javaClass.name,"Exception caught during Volley Request.")
+        }
+    }
+
+    private class EventDetails(val sectionHeader: String, val sectionContent: String)
+    private class ContactDetails(val name: String, val number: String)
+
+    private class DetailsRecyclerAdapter(private val eventDetailsList: ArrayList<EventDetails>): RecyclerView.Adapter<DetailsRecyclerAdapter.CustomViewHolder>() {
+
+        class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view)
+
+        override fun getItemCount(): Int {
+            return eventDetailsList.size
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
+            val layoutInflater = LayoutInflater.from(parent?.context)
+            val cellForRow = layoutInflater.inflate(R.layout.item_event_details, parent, false)
+            return CustomViewHolder(cellForRow)
+        }
+
+        override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
+            Log.d(javaClass.name, "$position - ${eventDetailsList[position].sectionHeader} adding views")
+            holder?.view?.event_details_txt_title?.text = eventDetailsList[position].sectionHeader
+            if(eventDetailsList[position].sectionContent=="") holder?.view?.event_details_txt_details?.visibility=View.GONE
+            else holder?.view?.event_details_txt_details?.text = eventDetailsList[position].sectionContent
+        }
+    }
+
+}
