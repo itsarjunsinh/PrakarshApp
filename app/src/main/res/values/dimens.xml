@@ -3,4 +3,9 @@
     <dimen name="height_listitem_category">88dp</dimen>
     <dimen name="textsize_listitem_title">16sp</dimen>
     <dimen name="textsize_listitem_description">13sp</dimen>
+    <dimen name="height_subheader">48dp</dimen>
+    <dimen name="textsize_subheader">18sp</dimen>
+    <dimen name="height_button">36dp</dimen>
+    <dimen name="margin_default">8dp</dimen>
+    <dimen name="padding_default">8dp</dimen>
 </resources>

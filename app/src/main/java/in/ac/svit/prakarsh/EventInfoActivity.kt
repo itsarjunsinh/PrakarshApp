@@ -1,5 +1,8 @@
 package `in`.ac.svit.prakarsh
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +16,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_event_info.*
+import kotlinx.android.synthetic.main.item_event_contact_details.view.*
 import kotlinx.android.synthetic.main.item_event_details.view.*
 import org.json.JSONArray
 
@@ -53,8 +57,11 @@ class EventInfoActivity : AppCompatActivity() {
                             val number = jsonArray.getJSONObject(i).getString("number")
                             contactDetailsList.add(ContactDetails(name, number))
                         }
+
                         event_info_rv_details?.layoutManager = LinearLayoutManager(applicationContext)
                         event_info_rv_details?.adapter = DetailsRecyclerAdapter(eventDetailsList)
+                        event_info_rv_contact_details?.layoutManager = LinearLayoutManager(applicationContext)
+                        event_info_rv_contact_details?.adapter = ContactDetailsRecyclerAdapter(applicationContext, contactDetailsList)
 
                     }, Response.ErrorListener {
                 error ->
@@ -88,6 +95,31 @@ class EventInfoActivity : AppCompatActivity() {
             holder?.view?.event_details_txt_title?.text = eventDetailsList[position].sectionHeader
             if(eventDetailsList[position].sectionContent=="") holder?.view?.event_details_txt_details?.visibility=View.GONE
             else holder?.view?.event_details_txt_details?.text = eventDetailsList[position].sectionContent
+        }
+    }
+
+    private class ContactDetailsRecyclerAdapter(private val context: Context, private val contactDetailsList: ArrayList<ContactDetails>): RecyclerView.Adapter<ContactDetailsRecyclerAdapter.CustomViewHolder>() {
+
+        class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view)
+
+        override fun getItemCount(): Int {
+            return contactDetailsList.size
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
+            val layoutInflater = LayoutInflater.from(parent?.context)
+            val cellForRow = layoutInflater.inflate(R.layout.item_event_contact_details, parent, false)
+            return CustomViewHolder(cellForRow)
+        }
+
+        override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
+            Log.d(javaClass.name, "$position - ${contactDetailsList[position].name} adding views")
+            holder?.view?.event_contact_details_txt_name?.text = contactDetailsList[position].name
+            holder?.view?.event_contact_details_txt_number?.text = contactDetailsList[position].number
+            holder?.view?.event_contact_details_btn_call?.setOnClickListener{
+                val callIntent: Intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", contactDetailsList[position].number, null))
+                context.startActivity(callIntent)
+            }
         }
     }
 

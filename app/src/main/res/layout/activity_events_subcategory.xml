@@ -7,6 +7,7 @@
         android:id="@+id/events_subcategory_sv_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:loopViews="true"
         android:animateLayoutChanges="true"/>
 
 </android.support.constraint.ConstraintLayout>
