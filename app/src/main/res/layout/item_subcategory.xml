@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/cardview_default_radius"
     app:cardElevation="@dimen/cardview_compat_inset_shadow">
 
@@ -14,10 +14,9 @@
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/subcategory_img_banner"
-            android:layout_width="600dp"
-            android:layout_height="400dp"
+            android:layout_width="298dp"
+            android:layout_height="429dp"
             android:layout_marginBottom="@dimen/margin_default"
-            android:layout_marginTop="@dimen/margin_default"
             android:background="@color/cardview_dark_background"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/subcategory_card_info"
