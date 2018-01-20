@@ -71,7 +71,6 @@ class EventsSubcategoryActivity : AppCompatActivity() {
             view?.subcategory_txt_tagline?.text=subcategoryList[position].tagline
             view?.subcategory_img_banner?.setDefaultImageResId(R.drawable.ic_image_black)
             view?.subcategory_img_banner?.setImageUrl(subcategoryList[position].imageUrl,VolleySingleton.getInstance(applicationContext).imageLoader)
-            view?.subcategory_img_banner?.setDefaultImageResId(R.drawable.ic_image_black)
             view?.subcategory_img_banner?.setErrorImageResId(R.drawable.ic_broken_image_black)
             view?.setOnClickListener{ openEventInfo(position) }
             view?.subcategory_btn_info?.setOnClickListener{ openEventInfo(position) }
