@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/cardview_default_radius"
-    app:cardElevation="@dimen/cardview_compat_inset_shadow">
+    app:cardElevation="@dimen/cardview_default_elevation">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
