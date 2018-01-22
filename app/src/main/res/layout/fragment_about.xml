@@ -9,7 +9,7 @@
         android:id="@+id/about_img_video"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorAccent"
+        android:background="@color/cardview_dark_background"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/about_guideline_header"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toTopOf="@+id/about_txt_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_play_arrow_translucent" />
+        app:srcCompat="@drawable/ic_play_arrow_white" />
 
     <android.support.constraint.Guideline
         android:id="@+id/about_guideline_header"
