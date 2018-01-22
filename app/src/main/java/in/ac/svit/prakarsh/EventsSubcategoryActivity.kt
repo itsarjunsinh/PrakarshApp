@@ -27,7 +27,6 @@ class EventsSubcategoryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_events_subcategory)
         Log.d(javaClass.name,"Started")
 
-
         updateViewsFromJson(intent.getStringExtra("url"))
     }
 
@@ -68,7 +67,7 @@ class EventsSubcategoryActivity : AppCompatActivity() {
                             subcategoryList.add(StackItem(name,tagline,imageUrl,dataUrl))
                         }
 
-                        events_subcategory_sv_main.adapter = StackAdapter(this, subcategoryList)
+                        events_subcategory_sv_main.adapter = StackAdapter(applicationContext,subcategoryList)
 
                     }, Response.ErrorListener {
                 error ->
@@ -82,7 +81,7 @@ class EventsSubcategoryActivity : AppCompatActivity() {
 
     private class StackItem(val name: String, val tagline: String, val imageUrl: String, val dataUrl: String)
 
-    private inner class StackAdapter(val context: Context, val subcategoryList: ArrayList<StackItem>): BaseAdapter() {
+    private class StackAdapter(val context: Context, val subcategoryList: ArrayList<StackItem>): BaseAdapter() {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = LayoutInflater.from(context).inflate(R.layout.item_subcategory, parent, false)
@@ -91,7 +90,7 @@ class EventsSubcategoryActivity : AppCompatActivity() {
             view?.subcategory_txt_tagline?.text = subcategoryList[position].tagline
             view?.subcategory_img_banner?.setDefaultImageResId(R.drawable.ic_image_black)
             view?.subcategory_img_banner?.setErrorImageResId(R.drawable.ic_broken_image_black)
-            view?.subcategory_img_banner?.setImageUrl(subcategoryList[position].imageUrl,VolleySingleton.getInstance(applicationContext).imageLoader)
+            view?.subcategory_img_banner?.setImageUrl(subcategoryList[position].imageUrl,VolleySingleton.getInstance(context).imageLoader)
             view?.setOnClickListener{ openEventInfo(position) }
             view?.subcategory_btn_info?.setOnClickListener{ openEventInfo(position) }
 
@@ -114,9 +113,9 @@ class EventsSubcategoryActivity : AppCompatActivity() {
         fun openEventInfo(position: Int){
             Log.d(javaClass.name,"${subcategoryList[position].name} Clicked")
 
-            val intent = Intent(applicationContext, EventInfoActivity::class.java)
+            val intent = Intent(context, EventInfoActivity::class.java)
             intent.putExtra("url", subcategoryList[position].dataUrl)
-            startActivity(intent)
+            context.startActivity(intent)
         }
 
     }
