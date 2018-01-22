@@ -32,6 +32,9 @@ class AboutFragment : Fragment() {
         about_btn_team.setOnClickListener{
             startActivity(Intent(context,TeamCategoryActivity::class.java))
         }
+        about_btn_sponsors.setOnClickListener{
+            startActivity(Intent(context,SponsorsActivity::class.java))
+        }
     }
 
     private fun updateViewsFromJson() {
