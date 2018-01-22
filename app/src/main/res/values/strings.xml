@@ -6,6 +6,7 @@
     <string name="navigation_about">About</string>
     <string name="about_sponsors">Sponsors</string>
     <string name="about_team">Team</string>
+    <string name="url_main">https://svitprakarsh.github.io/PrakarshJSON/main.json</string>
     <string name="url_about">https://svitprakarsh.github.io/PrakarshJSON/about.json</string>
     <string name="url_events_category">https://svitprakarsh.github.io/PrakarshJSON/events/category.json</string>
     <string name="url_team_category">https://svitprakarsh.github.io/PrakarshJSON/teams/category.json</string>
