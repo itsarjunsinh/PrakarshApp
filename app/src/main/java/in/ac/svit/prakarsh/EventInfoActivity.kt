@@ -30,7 +30,7 @@ class EventInfoActivity : AppCompatActivity() {
         updateViewsFromJson(intent.getStringExtra("url"))
     }
 
-    private fun updateViewsFromJson(url: String){
+    private fun updateViewsFromJson(url: String) {
         try {
             val que = Volley.newRequestQueue(applicationContext)
             val req = JsonObjectRequest(Request.Method.GET,url,null,
