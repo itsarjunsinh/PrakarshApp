@@ -31,7 +31,7 @@ class SponsorsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sponsors)
         Log.d(javaClass.name,"Started")
 
-        supportActionBar?.title = getString(R.string.activity_name_sponsors)
+        supportActionBar?.title = getString(R.string.activity_title_sponsors)
         updateViewsFromJson()
     }
 

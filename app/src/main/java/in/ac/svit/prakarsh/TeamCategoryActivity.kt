@@ -29,7 +29,7 @@ class TeamCategoryActivity: AppCompatActivity() {
         setContentView(R.layout.activity_team_category)
         Log.d(javaClass.name,"Started")
 
-        supportActionBar?.title = getString(R.string.activity_name_team_category)
+        supportActionBar?.title = getString(R.string.activity_title_team_category)
         updateViewFromJson()
     }
 
@@ -75,7 +75,7 @@ class TeamCategoryActivity: AppCompatActivity() {
 
     }
 
-    class TeamCategoryDataAdapter(val name: String?, val iconUrl: String?, val dataUrl: String?)
+    class TeamCategoryDataAdapter(val name: String, val iconUrl: String, val dataUrl: String)
 
     class TeamCategoryRecyclerAdapter(private val context: Context, private val dataAdapterList: ArrayList<TeamCategoryDataAdapter>): RecyclerView.Adapter<TeamCategoryRecyclerAdapter.CustomViewHolder>() {
 
@@ -98,7 +98,8 @@ class TeamCategoryActivity: AppCompatActivity() {
             holder?.view?.team_category_img_icon?.setImageUrl(dataAdapterList[position].iconUrl,VolleySingleton.getInstance(context).imageLoader)
             holder?.view?.setOnClickListener{
                 Log.d(javaClass.name,"${dataAdapterList[position].name} Clicked")
-                var intent = Intent().putExtra("url", dataAdapterList[position].dataUrl)
+                var intent = Intent(context, TeamInfoActivity::class.java)
+                intent.putExtra("url", dataAdapterList[position].dataUrl)
                 context?.startActivity(intent)
             }
         }
