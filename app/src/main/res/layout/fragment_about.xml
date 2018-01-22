@@ -5,15 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/about_img_header"
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/about_img_video"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/colorAccent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/about_guideline_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/about_img_play"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/about_txt_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_play_arrow_translucent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/about_guideline_header"
