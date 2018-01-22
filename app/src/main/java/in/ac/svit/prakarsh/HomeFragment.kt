@@ -9,6 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 
@@ -26,16 +30,78 @@ class HomeFragment : Fragment()  {
         super.onViewCreated(view, savedInstanceState)
         Log.d(javaClass.name,"Started")
 
-        val prakarshDate = Calendar.getInstance()
-        prakarshDate.set(2018,1,21,10,0,0)
-
-        startCountdown(prakarshDate)
+        updateViewsFromJson()
     }
 
-    fun startCountdown(eventDate: Calendar) {
+    private fun updateViewsFromJson(){
+        try {
+            var url: String? = context?.getString(R.string.url_main)
+            val que = Volley.newRequestQueue(context)
+            val req = JsonObjectRequest(Request.Method.GET,url,null,
+                    Response.Listener {
+                        response ->
+                        Log.d(javaClass.name,"JSON Successfully fetched")
+
+                        if(response.has("heading")) {
+                            home_txt_share_heading?.text = response["heading"]?.toString()
+                        }
+
+                        if(response.has("subHeading")) {
+                            home_txt_share_subheading?.text = response["subHeading"]?.toString()
+                        }
+
+                        if(response.has("shareContent")) {
+                            home_txt_share_content?.text = response["shareContent"]?.toString()
+                        }
+
+                        val prakarshDate = Calendar.getInstance()
+                        var year = 0
+                        var month = 0
+                        var date = 0
+                        var hours = 0
+                        var minutes = 0
+
+                        if(response.has("eventDate")){
+
+                            if(response.getJSONObject("eventDate").has("year")) {
+                                year = response.getJSONObject("eventDate").getInt("year")
+                            }
+
+                            if(response.getJSONObject("eventDate").has("month")) {
+                                month = response.getJSONObject("eventDate").getInt("month") - 1
+                            }
+
+                            if(response.getJSONObject("eventDate").has("date")) {
+                                date = response.getJSONObject("eventDate").getInt("date")
+                            }
+
+                            if(response.getJSONObject("eventDate").has("hours")) {
+                                hours = response.getJSONObject("eventDate").getInt("hours")
+                            }
+                            if(response.getJSONObject("eventDate").has("minutes")) {
+                                minutes = response.getJSONObject("eventDate").getInt("minutes")
+                            }
+
+                        }
+
+                        prakarshDate.set(year, month, date, hours, minutes,0)
+                        startCountdown(prakarshDate)
+
+                    }, Response.ErrorListener {
+                error ->
+                Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
+            })
+            que.add(req)
+        }catch (e: Exception){
+            Log.d(javaClass.name,"Exception caught during Volley Request.")
+        }
+    }
+
+    private fun startCountdown(eventDate: Calendar) {
         val finishedText = "${context?.getString(R.string.event_name)}!"
         val today = Calendar.getInstance()
         val timeInterval = eventDate.timeInMillis - today.timeInMillis
+
         if (timeInterval > 1) {
             val countDown = object : CountDownTimer(timeInterval, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
@@ -52,7 +118,7 @@ class HomeFragment : Fragment()  {
         }
     }
 
-    fun remainingTimeText(millisLeft: Long): String {
+    private fun remainingTimeText(millisLeft: Long): String {
         val SECOND = 1000
         val MINUTE = SECOND * 60
         val HOUR = MINUTE * 60
