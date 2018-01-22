@@ -22,6 +22,7 @@
         <activity android:name=".EventsSubcategoryActivity" />
         <activity android:name=".TeamInfoActivity" />
         <activity android:name=".EventInfoActivity" />
+        <activity android:name=".SponsorsActivity" />
     </application>
 
 </manifest>
