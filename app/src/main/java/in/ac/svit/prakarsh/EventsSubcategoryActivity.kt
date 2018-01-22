@@ -25,6 +25,8 @@ class EventsSubcategoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_events_subcategory)
+        Log.d(javaClass.name,"Started")
+
 
         updateViewsFromJson(intent.getStringExtra("url"))
     }
@@ -41,10 +43,28 @@ class EventsSubcategoryActivity : AppCompatActivity() {
                         var subcategoryList: ArrayList<StackItem> = ArrayList()
 
                         for (i in 0..(jsonArray.length()-1)) {
-                            val name = jsonArray.getJSONObject(i).getString("name")
-                            val tagline = jsonArray.getJSONObject(i).getString("tagline")
-                            val imageUrl = jsonArray.getJSONObject(i).getString("imageUrl")
-                            val dataUrl = jsonArray.getJSONObject(i).getString("dataUrl")
+
+                            var name = ""
+                            var tagline = ""
+                            var imageUrl = ""
+                            var dataUrl = ""
+
+                            if(jsonArray.getJSONObject(i).has("name")) {
+                                name = jsonArray.getJSONObject(i).getString("name")
+                            }
+
+                            if(jsonArray.getJSONObject(i).has("tagline")) {
+                                tagline = jsonArray.getJSONObject(i).getString("tagline")
+                            }
+
+                            if(jsonArray.getJSONObject(i).has("imageUrl")) {
+                                imageUrl = jsonArray.getJSONObject(i).getString("imageUrl")
+                            }
+
+                            if(jsonArray.getJSONObject(i).has("dataUrl")) {
+                                dataUrl = jsonArray.getJSONObject(i).getString("dataUrl")
+                            }
+
                             subcategoryList.add(StackItem(name,tagline,imageUrl,dataUrl))
                         }
 
@@ -67,11 +87,11 @@ class EventsSubcategoryActivity : AppCompatActivity() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = LayoutInflater.from(context).inflate(R.layout.item_subcategory, parent, false)
 
-            view?.subcategory_txt_title?.text=subcategoryList[position].name
-            view?.subcategory_txt_tagline?.text=subcategoryList[position].tagline
+            view?.subcategory_txt_title?.text = subcategoryList[position].name
+            view?.subcategory_txt_tagline?.text = subcategoryList[position].tagline
             view?.subcategory_img_banner?.setDefaultImageResId(R.drawable.ic_image_black)
-            view?.subcategory_img_banner?.setImageUrl(subcategoryList[position].imageUrl,VolleySingleton.getInstance(applicationContext).imageLoader)
             view?.subcategory_img_banner?.setErrorImageResId(R.drawable.ic_broken_image_black)
+            view?.subcategory_img_banner?.setImageUrl(subcategoryList[position].imageUrl,VolleySingleton.getInstance(applicationContext).imageLoader)
             view?.setOnClickListener{ openEventInfo(position) }
             view?.subcategory_btn_info?.setOnClickListener{ openEventInfo(position) }
 
