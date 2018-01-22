@@ -2,6 +2,7 @@ package `in`.ac.svit.prakarsh
 
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -45,7 +46,24 @@ class AboutFragment : Fragment() {
                     Response.Listener {
                         response ->
                         Log.d(javaClass.name,"JSON Successfully fetched")
-                        about_txt_description?.text=response["about"].toString()
+
+                        if(response.has("about")) {
+                            about_txt_description?.text=response["about"]?.toString()
+                        }
+
+                        about_img_video?.setDefaultImageResId(R.drawable.ic_image_black)
+                        about_img_video?.setErrorImageResId(R.drawable.ic_broken_image_black)
+                        if(response.has("youtubeVideoId")) {
+                            val youtubeVideoId = response["youtubeVideoId"].toString()
+                            about_img_video?.setImageUrl("https://img.youtube.com/vi/$youtubeVideoId/maxresdefault.jpg", VolleySingleton.getInstance(context).imageLoader)
+                            about_img_video?.setOnClickListener{
+                                launchYouTube(youtubeVideoId)
+                            }
+                            about_img_play?.setOnClickListener{
+                                launchYouTube(youtubeVideoId)
+                            }
+                        }
+
                     }, Response.ErrorListener {
                 error ->
                 Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
@@ -54,5 +72,11 @@ class AboutFragment : Fragment() {
         }catch (e: Exception){
             Log.d(javaClass.name,"Exception caught during Volley Request.")
         }
+    }
+
+    private fun launchYouTube(videoId: String) {
+        var intent: Intent = Intent(Intent.ACTION_VIEW)
+        intent.setData(Uri.parse("https://youtube.com/watch?v=$videoId"))
+        startActivity(intent)
     }
 }
