@@ -99,6 +99,7 @@ class TeamCategoryActivity: AppCompatActivity() {
             holder?.view?.setOnClickListener{
                 Log.d(javaClass.name,"${dataAdapterList[position].name} Clicked")
                 var intent = Intent(context, TeamInfoActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 intent.putExtra("url", dataAdapterList[position].dataUrl)
                 context?.startActivity(intent)
             }

@@ -85,7 +85,8 @@ class SponsorsActivity : AppCompatActivity() {
             holder?.view?.setOnClickListener{
                 Log.d(javaClass.name,"${sponsorsDataAdapterList[position].name} Clicked")
                 val webpage = Uri.parse(sponsorsDataAdapterList[position].websiteUrl)
-                var intent: Intent = Intent(Intent.ACTION_VIEW, webpage)
+                var intent = Intent(Intent.ACTION_VIEW, webpage)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 try {
                     context?.startActivity(intent)
                 }catch(e: ActivityNotFoundException){
