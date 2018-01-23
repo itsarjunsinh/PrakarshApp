@@ -100,11 +100,11 @@
                 android:layout_marginStart="@dimen/margin_default"
                 android:layout_marginEnd="@dimen/margin_default"
                 app:layout_constraintTop_toBottomOf="@id/home_txt_share_subheading"
-                app:layout_constraintBottom_toTopOf="@id/home_fab_share"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Text to be shared. #Prakarsh2018"
-                android:textSize="@dimen/textsize_listitem_title"/>
+                android:textSize="@dimen/textsize_listitem_title" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/home_fab_share"
@@ -114,7 +114,6 @@
                 android:clickable="true"
                 app:srcCompat="@drawable/ic_share_black"
                 app:layout_constraintHorizontal_bias="1"
-                app:layout_constraintTop_toBottomOf="@id/home_txt_share_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
