@@ -56,7 +56,7 @@ class TeamInfoActivity : AppCompatActivity() {
                             role = jsonArray.getJSONObject(i).getString("role")
                         }
 
-                        if(jsonArray.getJSONObject(i).has("dataUrl")) {
+                        if(jsonArray.getJSONObject(i).has("imageUrl")) {
                             imageUrl = jsonArray.getJSONObject(i).getString("imageUrl")
                         }
 
@@ -94,7 +94,7 @@ class TeamInfoActivity : AppCompatActivity() {
             holder?.view?.team_info_txt_role?.text = dataAdapterList[position].role
             holder?.view?.team_info_img_main?.setDefaultImageResId(R.drawable.ic_image_black)
             holder?.view?.team_info_img_main?.setErrorImageResId(R.drawable.ic_broken_image_black)
-            holder?.view?.team_info_img_main?.setImageUrl(dataAdapterList[position].imageUrl,VolleySingleton.getInstance(context).imageLoader)
+            holder?.view?.team_info_img_main?.setImageUrl(dataAdapterList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
         }
     }
 }
