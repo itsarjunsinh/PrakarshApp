@@ -15,14 +15,14 @@
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/team_info_img_main"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
             android:layout_marginBottom="@dimen/margin_default"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/team_info_txt_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/team_info_txt_name"
