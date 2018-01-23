@@ -117,8 +117,9 @@ class EventInfoActivity : AppCompatActivity() {
             holder?.view?.event_contact_details_txt_name?.text = contactDetailsList[position].name
             holder?.view?.event_contact_details_txt_number?.text = contactDetailsList[position].number
             holder?.view?.event_contact_details_btn_call?.setOnClickListener{
-                val callIntent: Intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", contactDetailsList[position].number, null))
-                context.startActivity(callIntent)
+                val callIntent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", contactDetailsList[position].number, null))
+                callIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context?.startActivity(callIntent)
             }
         }
     }

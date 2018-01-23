@@ -114,8 +114,9 @@ class EventsSubcategoryActivity : AppCompatActivity() {
             Log.d(javaClass.name,"${subcategoryList[position].name} Clicked")
 
             val intent = Intent(context, EventInfoActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             intent.putExtra("url", subcategoryList[position].dataUrl)
-            context.startActivity(intent)
+            context?.startActivity(intent)
         }
 
     }
