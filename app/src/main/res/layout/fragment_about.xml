@@ -33,20 +33,26 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/about_txt_description"
+    <android.support.v7.widget.CardView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/margin_default"
-        tools:text="Description about Prakarsh."
         app:layout_constraintTop_toBottomOf="@id/about_guideline_header"
         app:layout_constraintBottom_toTopOf="@id/about_btn_sponsors"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMaxTextSize="24sp"
-        android:gravity="center_vertical" />
+        app:layout_constraintEnd_toEndOf="parent" >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/about_txt_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_default"
+            tools:text="Description about Prakarsh."
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMaxTextSize="24sp" />
+
+    </android.support.v7.widget.CardView>
 
     <Button
         android:id="@+id/about_btn_sponsors"
