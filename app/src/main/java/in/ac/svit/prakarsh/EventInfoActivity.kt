@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_event_info.*
 import kotlinx.android.synthetic.main.item_event_contact_details.view.*
 import kotlinx.android.synthetic.main.item_event_details.view.*
@@ -25,82 +24,77 @@ class EventInfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_info)
-        Log.d(javaClass.name,"Started")
+        Log.d(javaClass.name, "Started")
 
         updateViewsFromJson(intent.getStringExtra("url"))
     }
 
     private fun updateViewsFromJson(url: String) {
-        try {
-            val que = Volley.newRequestQueue(applicationContext)
-            val req = JsonObjectRequest(Request.Method.GET,url,null,
-                    Response.Listener {
-                        response ->
-                        var eventName = ""
-                        if(response.has("eventName")) {
-                            eventName = response.getString("eventName")
+
+        val req = JsonObjectRequest(Request.Method.GET, url, null,
+                Response.Listener { response ->
+                    var eventName = ""
+                    if (response.has("eventName")) {
+                        eventName = response.getString("eventName")
+                    }
+
+                    Log.d(javaClass.name, "JSON Successfully fetched - $eventName")
+                    supportActionBar?.title = eventName
+
+                    var eventDetailsList: ArrayList<EventDetails> = ArrayList()
+                    var contactDetailsList: ArrayList<ContactDetails> = ArrayList()
+
+                    var jsonArray: JSONArray = response.getJSONArray("details")
+                    for (i in 0..(jsonArray.length() - 1)) {
+
+                        var sectionHeader = ""
+                        if (jsonArray.getJSONObject(i).has("sectionHeader")) {
+                            sectionHeader = jsonArray.getJSONObject(i).getString("sectionHeader")
                         }
 
-                        Log.d(javaClass.name,"JSON Successfully fetched - $eventName")
-                        supportActionBar?.title=eventName
-
-                        var eventDetailsList: ArrayList<EventDetails> = ArrayList()
-                        var contactDetailsList: ArrayList<ContactDetails> = ArrayList()
-
-                        var jsonArray: JSONArray = response.getJSONArray("details")
-                        for (i in 0..(jsonArray.length()-1)) {
-
-                            var sectionHeader = ""
-                            if(jsonArray.getJSONObject(i).has("sectionHeader")) {
-                                sectionHeader = jsonArray.getJSONObject(i).getString("sectionHeader")
-                            }
-
-                            var sectionContent = ""
-                            if(jsonArray.getJSONObject(i).has("sectionContent")) {
-                                sectionContent = jsonArray.getJSONObject(i).getString("sectionContent")
-                            }
-
-                            eventDetailsList.add(EventDetails(sectionHeader, sectionContent))
+                        var sectionContent = ""
+                        if (jsonArray.getJSONObject(i).has("sectionContent")) {
+                            sectionContent = jsonArray.getJSONObject(i).getString("sectionContent")
                         }
 
-                        jsonArray = response.getJSONArray("contactDetails")
-                        for (i in 0..(jsonArray.length()-1)) {
+                        eventDetailsList.add(EventDetails(sectionHeader, sectionContent))
+                    }
 
-                            var name = ""
-                            if(jsonArray.getJSONObject(i).has("name")) {
-                                name = jsonArray.getJSONObject(i).getString("name")
-                            }
+                    jsonArray = response.getJSONArray("contactDetails")
+                    for (i in 0..(jsonArray.length() - 1)) {
 
-                            var number = jsonArray.getJSONObject(i).getString("number")
-                            if(jsonArray.getJSONObject(i).has("number")) {
-                                number = jsonArray.getJSONObject(i).getString("number")
-                            }
-
-                            contactDetailsList.add(ContactDetails(name, number))
+                        var name = ""
+                        if (jsonArray.getJSONObject(i).has("name")) {
+                            name = jsonArray.getJSONObject(i).getString("name")
                         }
 
-                        event_info_rv_details?.layoutManager = LinearLayoutManager(applicationContext)
-                        event_info_rv_details?.adapter = DetailsRecyclerAdapter(eventDetailsList)
+                        var number = jsonArray.getJSONObject(i).getString("number")
+                        if (jsonArray.getJSONObject(i).has("number")) {
+                            number = jsonArray.getJSONObject(i).getString("number")
+                        }
 
-                        event_info_rv_contact_details?.layoutManager = LinearLayoutManager(applicationContext)
-                        event_info_rv_contact_details?.adapter = ContactDetailsRecyclerAdapter(applicationContext, contactDetailsList)
+                        contactDetailsList.add(ContactDetails(name, number))
+                    }
 
-                    }, Response.ErrorListener {
-                error ->
-                Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
-            })
-            que.add(req)
-        }catch (e: Exception){
-            Log.d(javaClass.name,"Exception caught during Volley Request.")
-        }
+                    event_info_rv_details?.layoutManager = LinearLayoutManager(applicationContext)
+                    event_info_rv_details?.adapter = DetailsRecyclerAdapter(eventDetailsList)
+
+                    event_info_rv_contact_details?.layoutManager = LinearLayoutManager(applicationContext)
+                    event_info_rv_contact_details?.adapter = ContactDetailsRecyclerAdapter(applicationContext, contactDetailsList)
+
+                }, Response.ErrorListener { error ->
+            Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
+        })
+
+        VolleySingleton.getInstance(applicationContext).requestQueue.add(req)
     }
 
     private class EventDetails(val sectionHeader: String, val sectionContent: String)
     private class ContactDetails(val name: String, val number: String)
 
-    private class DetailsRecyclerAdapter(private val eventDetailsList: ArrayList<EventDetails>): RecyclerView.Adapter<DetailsRecyclerAdapter.CustomViewHolder>() {
+    private class DetailsRecyclerAdapter(private val eventDetailsList: ArrayList<EventDetails>) : RecyclerView.Adapter<DetailsRecyclerAdapter.CustomViewHolder>() {
 
-        class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view)
+        class CustomViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
         override fun getItemCount(): Int {
             return eventDetailsList.size
@@ -115,14 +109,14 @@ class EventInfoActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
             Log.d(javaClass.name, "$position - ${eventDetailsList[position].sectionHeader} adding views")
             holder?.view?.event_details_txt_title?.text = eventDetailsList[position].sectionHeader
-            if(eventDetailsList[position].sectionContent=="") holder?.view?.event_details_txt_details?.visibility=View.GONE
+            if (eventDetailsList[position].sectionContent == "") holder?.view?.event_details_txt_details?.visibility = View.GONE
             else holder?.view?.event_details_txt_details?.text = eventDetailsList[position].sectionContent
         }
     }
 
-    private class ContactDetailsRecyclerAdapter(private val context: Context, private val contactDetailsList: ArrayList<ContactDetails>): RecyclerView.Adapter<ContactDetailsRecyclerAdapter.CustomViewHolder>() {
+    private class ContactDetailsRecyclerAdapter(private val context: Context, private val contactDetailsList: ArrayList<ContactDetails>) : RecyclerView.Adapter<ContactDetailsRecyclerAdapter.CustomViewHolder>() {
 
-        class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view)
+        class CustomViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
         override fun getItemCount(): Int {
             return contactDetailsList.size
@@ -138,7 +132,7 @@ class EventInfoActivity : AppCompatActivity() {
             Log.d(javaClass.name, "$position - ${contactDetailsList[position].name} adding views")
             holder?.view?.event_contact_details_txt_name?.text = contactDetailsList[position].name
             holder?.view?.event_contact_details_txt_number?.text = contactDetailsList[position].number
-            holder?.view?.event_contact_details_btn_call?.setOnClickListener{
+            holder?.view?.event_contact_details_btn_call?.setOnClickListener {
                 val callIntent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", contactDetailsList[position].number, null))
                 callIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context?.startActivity(callIntent)

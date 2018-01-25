@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_about.*
 
 
@@ -30,48 +29,42 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateViewsFromJson()
-        about_btn_team.setOnClickListener{
-            startActivity(Intent(context,TeamCategoryActivity::class.java))
+        about_btn_team.setOnClickListener {
+            startActivity(Intent(context, TeamCategoryActivity::class.java))
         }
-        about_btn_sponsors.setOnClickListener{
-            startActivity(Intent(context,SponsorsActivity::class.java))
+        about_btn_sponsors.setOnClickListener {
+            startActivity(Intent(context, SponsorsActivity::class.java))
         }
     }
 
     private fun updateViewsFromJson() {
-        try {
-            var url: String? = context?.getString(R.string.url_about)
-            val que = Volley.newRequestQueue(context)
-            val req = JsonObjectRequest(Request.Method.GET,url,null,
-                    Response.Listener {
-                        response ->
-                        Log.d(javaClass.name,"JSON Successfully fetched")
+        var url: String? = context?.getString(R.string.url_about)
+        val req = JsonObjectRequest(Request.Method.GET, url, null,
+                Response.Listener { response ->
+                    Log.d(javaClass.name, "JSON Successfully fetched")
 
-                        if(response.has("about")) {
-                            about_txt_description?.text=response["about"]?.toString()
+                    if (response.has("about")) {
+                        about_txt_description?.text = response["about"]?.toString()
+                    }
+
+                    about_img_video?.setDefaultImageResId(R.drawable.ic_image_black)
+                    about_img_video?.setErrorImageResId(R.drawable.ic_broken_image_black)
+                    if (response.has("youtubeVideoId")) {
+                        val youtubeVideoId = response["youtubeVideoId"].toString()
+                        about_img_video?.setImageUrl("https://img.youtube.com/vi/$youtubeVideoId/maxresdefault.jpg", VolleySingleton.getInstance(context).imageLoader)
+                        about_img_video?.setOnClickListener {
+                            launchYouTube(youtubeVideoId)
                         }
-
-                        about_img_video?.setDefaultImageResId(R.drawable.ic_image_black)
-                        about_img_video?.setErrorImageResId(R.drawable.ic_broken_image_black)
-                        if(response.has("youtubeVideoId")) {
-                            val youtubeVideoId = response["youtubeVideoId"].toString()
-                            about_img_video?.setImageUrl("https://img.youtube.com/vi/$youtubeVideoId/maxresdefault.jpg", VolleySingleton.getInstance(context).imageLoader)
-                            about_img_video?.setOnClickListener{
-                                launchYouTube(youtubeVideoId)
-                            }
-                            about_img_play?.setOnClickListener{
-                                launchYouTube(youtubeVideoId)
-                            }
+                        about_img_play?.setOnClickListener {
+                            launchYouTube(youtubeVideoId)
                         }
+                    }
 
-                    }, Response.ErrorListener {
-                error ->
-                Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
-            })
-            que.add(req)
-        }catch (e: Exception){
-            Log.d(javaClass.name,"Exception caught during Volley Request.")
-        }
+                }, Response.ErrorListener { error ->
+            Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
+        })
+
+        VolleySingleton.getInstance(context?.applicationContext).requestQueue.add(req)
     }
 
     private fun launchYouTube(videoId: String) {

@@ -13,11 +13,10 @@ import android.view.ViewGroup
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.fragment_events_category.*
 import kotlinx.android.synthetic.main.item_category.view.*
 import org.json.JSONArray
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Created by itsarjunsinh on 1/15/18.
@@ -36,9 +35,9 @@ class EventsCategoryFragment: Fragment() {
     }
 
     private fun updateViewsFromJson() {
-        val url = context?.getString(R.string.url_events_category)
         events_category_rv_main?.layoutManager = GridLayoutManager(context,2)
-        val que = Volley.newRequestQueue(context)
+
+        val url = context?.getString(R.string.url_events_category)
         val req = JsonObjectRequest(Request.Method.GET,url,null,
                 Response.Listener {
                     response ->
@@ -82,7 +81,8 @@ class EventsCategoryFragment: Fragment() {
             error ->
             Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
-        que.add(req)
+
+        VolleySingleton.getInstance(context?.applicationContext).requestQueue.add(req)
     }
 
     class CategoryDataAdapter(val title: String, val tagline: String, val department: String, val iconUrl: String, val dataUrl: String)

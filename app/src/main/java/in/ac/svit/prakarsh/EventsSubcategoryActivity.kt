@@ -12,7 +12,6 @@ import android.widget.BaseAdapter
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_events_subcategory.*
 import kotlinx.android.synthetic.main.item_subcategory.view.*
 import org.json.JSONArray
@@ -25,70 +24,64 @@ class EventsSubcategoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_events_subcategory)
-        Log.d(javaClass.name,"Started")
+        Log.d(javaClass.name, "Started")
 
         updateViewsFromJson(intent.getStringExtra("url"))
     }
 
     private fun updateViewsFromJson(url: String) {
-        try {
-            val que = Volley.newRequestQueue(applicationContext)
-            val req = JsonObjectRequest(Request.Method.GET,url,null,
-                    Response.Listener {
-                        response ->
+        val req = JsonObjectRequest(Request.Method.GET, url, null,
+                Response.Listener { response ->
 
-                        var categoryName = ""
-                        if(response.has("categoryName")) {
-                            categoryName = response.getString("categoryName")
+                    var categoryName = ""
+                    if (response.has("categoryName")) {
+                        categoryName = response.getString("categoryName")
+                    }
+
+                    Log.d(javaClass.name, "JSON Successfully fetched - $categoryName")
+                    supportActionBar?.title = categoryName
+
+                    val jsonArray: JSONArray = response.getJSONArray("events")
+                    var subcategoryList: ArrayList<StackItem> = ArrayList()
+
+                    for (i in 0..(jsonArray.length() - 1)) {
+
+                        var name = ""
+                        var tagline = ""
+                        var imageUrl = ""
+                        var dataUrl = ""
+
+                        if (jsonArray.getJSONObject(i).has("name")) {
+                            name = jsonArray.getJSONObject(i).getString("name")
                         }
 
-                        Log.d(javaClass.name,"JSON Successfully fetched - $categoryName")
-                        supportActionBar?.title = categoryName
-
-                        val jsonArray: JSONArray = response.getJSONArray("events")
-                        var subcategoryList: ArrayList<StackItem> = ArrayList()
-
-                        for (i in 0..(jsonArray.length()-1)) {
-
-                            var name = ""
-                            var tagline = ""
-                            var imageUrl = ""
-                            var dataUrl = ""
-
-                            if(jsonArray.getJSONObject(i).has("name")) {
-                                name = jsonArray.getJSONObject(i).getString("name")
-                            }
-
-                            if(jsonArray.getJSONObject(i).has("tagline")) {
-                                tagline = jsonArray.getJSONObject(i).getString("tagline")
-                            }
-
-                            if(jsonArray.getJSONObject(i).has("imageUrl")) {
-                                imageUrl = jsonArray.getJSONObject(i).getString("imageUrl")
-                            }
-
-                            if(jsonArray.getJSONObject(i).has("dataUrl")) {
-                                dataUrl = jsonArray.getJSONObject(i).getString("dataUrl")
-                            }
-
-                            subcategoryList.add(StackItem(name,tagline,imageUrl,dataUrl))
+                        if (jsonArray.getJSONObject(i).has("tagline")) {
+                            tagline = jsonArray.getJSONObject(i).getString("tagline")
                         }
 
-                        events_subcategory_sv_main.adapter = StackAdapter(applicationContext,subcategoryList)
+                        if (jsonArray.getJSONObject(i).has("imageUrl")) {
+                            imageUrl = jsonArray.getJSONObject(i).getString("imageUrl")
+                        }
 
-                    }, Response.ErrorListener {
-                error ->
-                Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
-            })
-            que.add(req)
-        }catch (e: Exception){
-            Log.d(javaClass.name,"Exception caught during Volley Request.")
-        }
+                        if (jsonArray.getJSONObject(i).has("dataUrl")) {
+                            dataUrl = jsonArray.getJSONObject(i).getString("dataUrl")
+                        }
+
+                        subcategoryList.add(StackItem(name, tagline, imageUrl, dataUrl))
+                    }
+
+                    events_subcategory_sv_main.adapter = StackAdapter(applicationContext, subcategoryList)
+
+                }, Response.ErrorListener { error ->
+            Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
+        })
+
+        VolleySingleton.getInstance(applicationContext).requestQueue.add(req)
     }
 
     private class StackItem(val name: String, val tagline: String, val imageUrl: String, val dataUrl: String)
 
-    private class StackAdapter(val context: Context, val subcategoryList: ArrayList<StackItem>): BaseAdapter() {
+    private class StackAdapter(val context: Context, val subcategoryList: ArrayList<StackItem>) : BaseAdapter() {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view = LayoutInflater.from(context).inflate(R.layout.item_subcategory, parent, false)
@@ -97,11 +90,11 @@ class EventsSubcategoryActivity : AppCompatActivity() {
             view?.subcategory_txt_tagline?.text = subcategoryList[position].tagline
             view?.subcategory_img_banner?.setDefaultImageResId(R.drawable.ic_image_black)
             view?.subcategory_img_banner?.setErrorImageResId(R.drawable.ic_broken_image_black)
-            view?.subcategory_img_banner?.setImageUrl(subcategoryList[position].imageUrl,VolleySingleton.getInstance(context).imageLoader)
-            view?.setOnClickListener{ openEventInfo(position) }
-            view?.subcategory_btn_info?.setOnClickListener{ openEventInfo(position) }
+            view?.subcategory_img_banner?.setImageUrl(subcategoryList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
+            view?.setOnClickListener { openEventInfo(position) }
+            view?.subcategory_btn_info?.setOnClickListener { openEventInfo(position) }
 
-            Log.d(javaClass.name,"Returning ${subcategoryList[position].name} view")
+            Log.d(javaClass.name, "Returning ${subcategoryList[position].name} view")
             return view
         }
 
@@ -117,8 +110,8 @@ class EventsSubcategoryActivity : AppCompatActivity() {
             return subcategoryList.size
         }
 
-        fun openEventInfo(position: Int){
-            Log.d(javaClass.name,"${subcategoryList[position].name} Clicked")
+        fun openEventInfo(position: Int) {
+            Log.d(javaClass.name, "${subcategoryList[position].name} Clicked")
 
             val intent = Intent(context, EventInfoActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
