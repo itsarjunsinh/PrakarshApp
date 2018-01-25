@@ -36,7 +36,14 @@ class EventsSubcategoryActivity : AppCompatActivity() {
             val req = JsonObjectRequest(Request.Method.GET,url,null,
                     Response.Listener {
                         response ->
-                        Log.d(javaClass.name,"JSON Successfully fetched")
+
+                        var categoryName = ""
+                        if(response.has("categoryName")) {
+                            categoryName = response.getString("categoryName")
+                        }
+
+                        Log.d(javaClass.name,"JSON Successfully fetched - $categoryName")
+                        supportActionBar?.title = categoryName
 
                         val jsonArray: JSONArray = response.getJSONArray("events")
                         var subcategoryList: ArrayList<StackItem> = ArrayList()
