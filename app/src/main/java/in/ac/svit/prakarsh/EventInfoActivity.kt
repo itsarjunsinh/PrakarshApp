@@ -36,30 +36,52 @@ class EventInfoActivity : AppCompatActivity() {
             val req = JsonObjectRequest(Request.Method.GET,url,null,
                     Response.Listener {
                         response ->
-                        val eventName = response.getString("eventName")
-                        var eventDetailsList: ArrayList<EventDetails> = ArrayList()
-                        var contactDetailsList: ArrayList<ContactDetails> = ArrayList()
+                        var eventName = ""
+                        if(response.has("eventName")) {
+                            eventName = response.getString("eventName")
+                        }
 
                         Log.d(javaClass.name,"JSON Successfully fetched - $eventName")
                         supportActionBar?.title=eventName
 
+                        var eventDetailsList: ArrayList<EventDetails> = ArrayList()
+                        var contactDetailsList: ArrayList<ContactDetails> = ArrayList()
+
                         var jsonArray: JSONArray = response.getJSONArray("details")
                         for (i in 0..(jsonArray.length()-1)) {
-                            val sectionHeader = jsonArray.getJSONObject(i).getString("sectionHeader")
-                            val sectionContent = jsonArray.getJSONObject(i).getString("sectionContent")
-                            Log.d(javaClass.name,"Storing - $sectionHeader")
+
+                            var sectionHeader = ""
+                            if(jsonArray.getJSONObject(i).has("sectionHeader")) {
+                                sectionHeader = jsonArray.getJSONObject(i).getString("sectionHeader")
+                            }
+
+                            var sectionContent = ""
+                            if(jsonArray.getJSONObject(i).has("sectionContent")) {
+                                sectionContent = jsonArray.getJSONObject(i).getString("sectionContent")
+                            }
+
                             eventDetailsList.add(EventDetails(sectionHeader, sectionContent))
                         }
 
                         jsonArray = response.getJSONArray("contactDetails")
                         for (i in 0..(jsonArray.length()-1)) {
-                            val name = jsonArray.getJSONObject(i).getString("name")
-                            val number = jsonArray.getJSONObject(i).getString("number")
+
+                            var name = ""
+                            if(jsonArray.getJSONObject(i).has("name")) {
+                                name = jsonArray.getJSONObject(i).getString("name")
+                            }
+
+                            var number = jsonArray.getJSONObject(i).getString("number")
+                            if(jsonArray.getJSONObject(i).has("number")) {
+                                number = jsonArray.getJSONObject(i).getString("number")
+                            }
+
                             contactDetailsList.add(ContactDetails(name, number))
                         }
 
                         event_info_rv_details?.layoutManager = LinearLayoutManager(applicationContext)
                         event_info_rv_details?.adapter = DetailsRecyclerAdapter(eventDetailsList)
+
                         event_info_rv_contact_details?.layoutManager = LinearLayoutManager(applicationContext)
                         event_info_rv_contact_details?.adapter = ContactDetailsRecyclerAdapter(applicationContext, contactDetailsList)
 
