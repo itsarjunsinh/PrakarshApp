@@ -36,6 +36,7 @@ class HomeFragment : Fragment() {
                 Response.Listener { response ->
                     Log.d(javaClass.name, "JSON Successfully fetched")
 
+                    /*
                     if (response.has("heading")) {
                         home_txt_share_heading?.text = response["heading"]?.toString()
                     }
@@ -47,6 +48,7 @@ class HomeFragment : Fragment() {
                     if (response.has("shareContent")) {
                         home_txt_share_content?.text = response["shareContent"]?.toString()
                     }
+                    */
 
                     val prakarshDate = Calendar.getInstance()
                     var year = 0
