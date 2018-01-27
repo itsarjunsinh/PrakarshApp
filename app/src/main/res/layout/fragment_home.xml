@@ -50,7 +50,22 @@
                 android:paddingEnd="@dimen/padding_default"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/primary_text_dark"
-                app:autoSizeTextType="uniform" />
+                app:autoSizeTextType="uniform"
+                tools:text="24 days\n19 Hours: 14 Minutes: 04 Seconds"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:text="Featured Speakers"
+                android:padding="@dimen/padding_default"
+                android:textSize="@dimen/textsize_subheader"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/home_rv_featured_speakers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <!--
             <android.support.v7.widget.CardView
