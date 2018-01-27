@@ -122,10 +122,8 @@ class HomeFragment : Fragment() {
         var remainingText = ""
 
         if (remainingDays > 0) {
-            remainingText = "$remainingDays Days"
+            remainingText = "$remainingDays Days\n"
         }
-
-        remainingText += "\n"
 
         remainingText += String.format("%02d Hours : %02d Minutes: %02d Seconds", remainingHours, remainingMinutes, remainingSeconds)
         return remainingText
