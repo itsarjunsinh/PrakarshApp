@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_default" >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default" >
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/featured_speakers_card_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="36dp"
+            app:cardPreventCornerOverlap="false" >
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/featured_speakers_img_speaker"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:scaleType="centerCrop" />
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/featured_speakers_txt_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/padding_default"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toStartOf="@+id/featured_speakers_txt_date"
+            app:layout_constraintStart_toEndOf="@+id/featured_speakers_card_image"
+            app:layout_constraintTop_toTopOf="@+id/featured_speakers_card_image"
+            tools:text="Name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+        <TextView
+            android:id="@+id/featured_speakers_txt_short_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/padding_default"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/featured_speakers_card_image"
+            app:layout_constraintTop_toBottomOf="@+id/featured_speakers_txt_name"
+            tools:text="Short Description"
+            android:maxLines="1"
+            android:textSize="@dimen/textsize_subheader"
+            android:textStyle="italic"/>
+
+        <TextView
+            android:id="@+id/featured_speakers_txt_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/padding_default"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/featured_speakers_card_image"
+            app:layout_constraintTop_toBottomOf="@+id/featured_speakers_txt_short_description"
+            android:textSize="@dimen/textsize_listitem_description"
+            tools:text="Long Description" />
+
+        <TextView
+            android:id="@+id/featured_speakers_txt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/padding_default"
+            android:textAlignment="textEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/featured_speakers_card_image"
+            android:textSize="@dimen/textsize_listitem_description"
+            tools:text="21/2/18" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>
