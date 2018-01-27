@@ -41,10 +41,14 @@ class EventInfoActivity : AppCompatActivity() {
                     Log.d(javaClass.name, "JSON Successfully fetched - $eventName")
                     supportActionBar?.title = eventName
 
-                    var eventDetailsList: ArrayList<EventDetails> = ArrayList()
-                    var contactDetailsList: ArrayList<ContactDetails> = ArrayList()
+                    val eventDetailsList: ArrayList<EventDetails> = ArrayList()
+                    val contactDetailsList: ArrayList<ContactDetails> = ArrayList()
+                    var jsonArray = JSONArray()
 
-                    var jsonArray: JSONArray = response.getJSONArray("details")
+                    if (response.has("details")) {
+                        jsonArray = response.getJSONArray("details")
+                    }
+
                     for (i in 0..(jsonArray.length() - 1)) {
 
                         var sectionHeader = ""
