@@ -90,7 +90,7 @@ class EventInfoActivity : AppCompatActivity() {
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
 
-        VolleySingleton.getInstance(applicationContext).requestQueue.add(req)
+        VolleySingleton.getInstance(applicationContext).requestQueue.add(req.setShouldCache(false))
     }
 
     private class EventDetails(val sectionHeader: String, val sectionContent: String)

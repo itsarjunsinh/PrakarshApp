@@ -69,7 +69,7 @@ class TeamCategoryActivity : AppCompatActivity() {
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
 
-        VolleySingleton.getInstance(applicationContext).requestQueue.add(req)
+        VolleySingleton.getInstance(applicationContext).requestQueue.add(req.setShouldCache(false))
     }
 
     class TeamCategoryDataAdapter(val name: String, val iconUrl: String, val dataUrl: String)

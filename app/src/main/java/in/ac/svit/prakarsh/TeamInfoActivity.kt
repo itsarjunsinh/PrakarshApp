@@ -66,7 +66,7 @@ class TeamInfoActivity : AppCompatActivity() {
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
 
-        VolleySingleton.getInstance(applicationContext).requestQueue.add(req)
+        VolleySingleton.getInstance(applicationContext).requestQueue.add(req.setShouldCache(false))
     }
 
     class TeamInfoDataAdapter(val name: String, val role: String, val imageUrl: String)

@@ -76,7 +76,7 @@ class EventsSubcategoryActivity : AppCompatActivity() {
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
 
-        VolleySingleton.getInstance(applicationContext).requestQueue.add(req)
+        VolleySingleton.getInstance(applicationContext).requestQueue.add(req.setShouldCache(false))
     }
 
     private class StackItem(val name: String, val tagline: String, val imageUrl: String, val dataUrl: String)

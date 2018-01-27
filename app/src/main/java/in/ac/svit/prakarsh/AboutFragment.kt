@@ -64,7 +64,7 @@ class AboutFragment : Fragment() {
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
 
-        VolleySingleton.getInstance(context?.applicationContext).requestQueue.add(req)
+        VolleySingleton.getInstance(context?.applicationContext).requestQueue.add(req.setShouldCache(false))
     }
 
     private fun launchYouTube(videoId: String) {
