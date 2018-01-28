@@ -1,7 +1,6 @@
 package `in`.ac.svit.prakarsh
 
 import `in`.ac.svit.prakarsh.R.id.action_home
-import `in`.ac.svit.prakarsh.R.id.navigation_header_container
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -31,6 +30,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_about -> {
                 startFragmentTransaction(AboutFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.action_account -> {
+                startFragmentTransaction(AccountFragment())
                 return@OnNavigationItemSelectedListener true
             }
         }
