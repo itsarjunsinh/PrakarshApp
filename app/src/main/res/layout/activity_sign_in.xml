@@ -48,7 +48,7 @@
                         android:id="@+id/sign_in_et_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="20"
+                        android:maxLength="30"
                         android:hint="Full Name"
                         android:inputType="textAutoComplete" />
 
@@ -67,7 +67,7 @@
                         android:id="@+id/sign_in_et_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="20"
+                        android:maxLength="12"
                         android:hint="Phone Number"
                         android:inputType="phone" />
 
@@ -86,7 +86,7 @@
                         android:id="@+id/sign_in_et_college_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="40"
+                        android:maxLength="60"
                         android:hint="College Name"
                         android:inputType="textAutoComplete" />
 
@@ -105,7 +105,7 @@
                         android:id="@+id/sign_in_et_department"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="20"
+                        android:maxLength="40"
                         android:hint="Department"
                         android:inputType="textAutoComplete" />
 
