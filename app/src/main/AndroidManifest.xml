@@ -12,18 +12,39 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity"  android:screenOrientation="portrait">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TeamCategoryActivity"  android:screenOrientation="portrait" />
-        <activity android:name=".EventsSubcategoryActivity" android:screenOrientation="portrait" />
-        <activity android:name=".TeamInfoActivity"  android:screenOrientation="portrait" />
-        <activity android:name=".EventInfoActivity" android:screenOrientation="portrait" />
-        <activity android:name=".SponsorsActivity"  android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".TeamCategoryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".EventsSubcategoryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".TeamInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".EventInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".SponsorsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".SignInActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 
