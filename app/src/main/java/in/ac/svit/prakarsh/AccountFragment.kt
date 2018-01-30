@@ -8,6 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -49,14 +52,15 @@ class AccountFragment : Fragment() {
 
         account_btn_login.visibility = View.GONE
         account_btn_logout.visibility = View.GONE
-        account_txt_message.visibility = View.GONE
+        account_card_promotion.visibility = View.GONE
 
         account_img_user.setDefaultImageResId(R.drawable.ic_person_black)
+        account_img_user.setImageUrl(null, VolleySingleton.getInstance(context).imageLoader)
 
         Log.d(javaClass.name,"UID: ${user?.uid}")
         if(user != null){
 
-            account_txt_message.visibility = View.VISIBLE
+            account_card_promotion.visibility = View.VISIBLE
             account_btn_logout.visibility = View.VISIBLE
 
             account_btn_logout.setOnClickListener{
@@ -68,7 +72,7 @@ class AccountFragment : Fragment() {
                     setPositiveButton("Yes") { _, _ ->
                         Log.d(javaClass.name, "Trying to logout")
                         mAuth.signOut()
-                        updateUI(mAuth.currentUser)
+                        updateUI(null)
                     }
                     setNegativeButton("Cancel") { dialog, _ ->
                         dialog.dismiss()
@@ -80,6 +84,8 @@ class AccountFragment : Fragment() {
             loadData()
 
         } else {
+
+            account_txt_name.text = "Not logged in."
 
             account_btn_login.visibility = View.VISIBLE
             account_btn_login.setOnClickListener{
@@ -97,12 +103,32 @@ class AccountFragment : Fragment() {
             task ->
             val document = task.result
             account_txt_name?.text = document?.getString("name")
-            account_txt_college.text = document?.getString("collegeName")
-            account_txt_department.text = document?.getString("department")
-            account_txt_city.text = document?.getString("city")
+            account_txt_college?.text = document?.getString("collegeName")
+            account_txt_department?.text = document?.getString("department")
+            account_txt_city?.text = document?.getString("city")
         }
 
         val imageUrl = mAuth.currentUser?.photoUrl.toString()
         account_img_user?.setImageUrl(imageUrl, VolleySingleton.getInstance(context).imageLoader)
+
+        val url = getString(R.string.url_promotion)
+        val req = JsonObjectRequest(Request.Method.GET, url, null, Response.Listener {
+            response ->
+
+                if(response.has("promotionTitle")) {
+                    account_txt_promotion_title?.text = response.getString("promotionTitle")
+                }
+                if(response.has("promotionMessage")) {
+                    account_txt_promotion_message?.text = response.getString("promotionMessage")
+                }
+
+        }, Response.ErrorListener {
+
+            Log.d(javaClass.name, "Failed to load $url")
+            account_txt_promotion_message?.text = "Could not retrieve information."
+
+        })
+
+        VolleySingleton.getInstance(context).requestQueue.add(req)
     }
 }
