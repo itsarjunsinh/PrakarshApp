@@ -60,6 +60,18 @@ class AboutFragment : Fragment() {
                         }
                     }
 
+                    if(response.has("facebookUrl")) {
+                        about_btn_facebook.setOnClickListener {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(response.getString("facebookUrl"))))
+                        }
+                    }
+
+                    if(response.has("instagramUrl")) {
+                        about_btn_instagram.setOnClickListener {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(response.getString("instagramUrl"))))
+                        }
+                    }
+
                 }, Response.ErrorListener { error ->
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
