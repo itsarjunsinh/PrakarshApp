@@ -13,6 +13,7 @@
     <string name="url_events_category">https://svitprakarsh.github.io/PrakarshJSON/events/category.json</string>
     <string name="url_team_category">https://svitprakarsh.github.io/PrakarshJSON/teams/category.json</string>
     <string name="url_sponsors">https://svitprakarsh.github.io/PrakarshJSON/sponsors/info.json</string>
+    <string name="url_promotion">https://svitprakarsh.github.io/PrakarshJSON/promotion.json</string>
     <string name="activity_title_team_category">Prakarsh Team</string>
     <string name="activity_title_sponsors">Sponsors</string>
 </resources>
