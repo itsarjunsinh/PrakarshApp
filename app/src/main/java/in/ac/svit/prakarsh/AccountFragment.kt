@@ -85,7 +85,8 @@ class AccountFragment : Fragment() {
 
         } else {
 
-            account_txt_name.text = "Not logged in."
+            //Show log in status in TextView for College Name
+            account_txt_college.text = "Not logged in."
 
             account_btn_login.visibility = View.VISIBLE
             account_btn_login.setOnClickListener{
