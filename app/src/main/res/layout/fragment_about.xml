@@ -79,27 +79,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_default"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/about_btn_instagram"
         android:textColor="@android:color/primary_text_dark"
         android:background="@color/colorPrimary"
-        tools:text="Facebook"
-        tools:visibility="visible" />
+        android:text="Facebook" />
 
     <Button
         android:id="@+id/about_btn_instagram"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_default"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/about_btn_facebook"
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@android:color/primary_text_dark"
         android:background="@color/colorPrimary"
-        tools:text="Instagram"
-        tools:visibility="visible" />
+        android:text="Instagram" />
 
 </android.support.constraint.ConstraintLayout>
