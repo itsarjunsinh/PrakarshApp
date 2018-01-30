@@ -60,11 +60,9 @@
         android:layout_height="wrap_content"
         android:text="@string/about_sponsors"
         android:layout_margin="@dimen/margin_default"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/about_btn_facebook"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/about_btn_team"
-        android:textColor="@android:color/primary_text_dark"
-        android:background="@color/colorPrimary" />
+        app:layout_constraintEnd_toStartOf="@+id/about_btn_team" />
 
     <Button
         android:id="@+id/about_btn_team"
@@ -72,10 +70,36 @@
         android:layout_height="wrap_content"
         android:text="@string/about_team"
         android:layout_margin="@dimen/margin_default"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/about_btn_instagram"
         app:layout_constraintStart_toEndOf="@id/about_btn_sponsors"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/about_btn_facebook"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/about_btn_instagram"
+        android:textColor="@android:color/primary_text_dark"
+        android:background="@color/colorPrimary"
+        tools:text="Facebook"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/about_btn_instagram"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/about_btn_facebook"
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@android:color/primary_text_dark"
-        android:background="@color/colorPrimary" />
+        android:background="@color/colorPrimary"
+        tools:text="Instagram"
+        tools:visibility="visible" />
 
 </android.support.constraint.ConstraintLayout>
