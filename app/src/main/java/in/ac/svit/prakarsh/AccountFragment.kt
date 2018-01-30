@@ -129,6 +129,6 @@ class AccountFragment : Fragment() {
 
         })
 
-        VolleySingleton.getInstance(context).requestQueue.add(req)
+        VolleySingleton.getInstance(context).requestQueue.add(req.setShouldCache(false))
     }
 }
