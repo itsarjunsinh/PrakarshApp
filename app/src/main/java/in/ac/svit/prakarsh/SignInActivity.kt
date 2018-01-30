@@ -39,7 +39,7 @@ class SignInActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        account_btn_confirm.setOnClickListener {
+        account_btn_confirm?.setOnClickListener {
             var validPhone = false
             var validText = false
 
@@ -60,10 +60,10 @@ class SignInActivity : AppCompatActivity() {
             }
 
             //Validate Text Fields
-            name = sign_in_et_name.text.toString()
-            collegeName = sign_in_et_college_name.text.toString()
-            department = sign_in_et_department.text.toString()
-            city = sign_in_et_city.text.toString()
+            name = sign_in_et_name?.text.toString()
+            collegeName = sign_in_et_college_name?.text.toString()
+            department = sign_in_et_department?.text.toString()
+            city = sign_in_et_city?.text.toString()
 
             if (name.length > 1 && collegeName.length > 1 && department.length > 1 && city.length > 1) {
                 validText = true

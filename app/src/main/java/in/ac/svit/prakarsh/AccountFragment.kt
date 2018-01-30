@@ -45,25 +45,25 @@ class AccountFragment : Fragment() {
 
     private fun updateUI(user: FirebaseUser?) {
 
-        account_txt_name.text = ""
-        account_txt_college.text = ""
-        account_txt_department.text = ""
-        account_txt_city.text = ""
+        account_txt_name?.text = ""
+        account_txt_college?.text = ""
+        account_txt_department?.text = ""
+        account_txt_city?.text = ""
 
-        account_btn_login.visibility = View.GONE
-        account_btn_logout.visibility = View.GONE
-        account_card_promotion.visibility = View.GONE
+        account_btn_login?.visibility = View.GONE
+        account_btn_logout?.visibility = View.GONE
+        account_card_promotion?.visibility = View.GONE
 
-        account_img_user.setDefaultImageResId(R.drawable.ic_person_black)
-        account_img_user.setImageUrl(null, VolleySingleton.getInstance(context).imageLoader)
+        account_img_user?.setDefaultImageResId(R.drawable.ic_person_black)
+        account_img_user?.setImageUrl(null, VolleySingleton.getInstance(context).imageLoader)
 
         Log.d(javaClass.name,"UID: ${user?.uid}")
         if(user != null){
 
-            account_card_promotion.visibility = View.VISIBLE
-            account_btn_logout.visibility = View.VISIBLE
+            account_card_promotion?.visibility = View.VISIBLE
+            account_btn_logout?.visibility = View.VISIBLE
 
-            account_btn_logout.setOnClickListener{
+            account_btn_logout?.setOnClickListener{
                 val alertDialog = AlertDialog.Builder(context)
                 with(alertDialog) {
                     setTitle("Log Out")
@@ -86,10 +86,10 @@ class AccountFragment : Fragment() {
         } else {
 
             //Show log in status in TextView for College Name
-            account_txt_college.text = "Not logged in."
+            account_txt_college?.text = "Not logged in."
 
-            account_btn_login.visibility = View.VISIBLE
-            account_btn_login.setOnClickListener{
+            account_btn_login?.visibility = View.VISIBLE
+            account_btn_login?.setOnClickListener{
                 val intent = Intent(context?.applicationContext, SignInActivity::class.java)
                 startActivity(intent)
             }
