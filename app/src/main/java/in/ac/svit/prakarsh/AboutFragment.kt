@@ -61,13 +61,13 @@ class AboutFragment : Fragment() {
                     }
 
                     if(response.has("facebookUrl")) {
-                        about_btn_facebook.setOnClickListener {
+                        about_btn_facebook?.setOnClickListener {
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(response.getString("facebookUrl"))))
                         }
                     }
 
                     if(response.has("instagramUrl")) {
-                        about_btn_instagram.setOnClickListener {
+                        about_btn_instagram?.setOnClickListener {
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(response.getString("instagramUrl"))))
                         }
                     }
@@ -80,7 +80,7 @@ class AboutFragment : Fragment() {
     }
 
     private fun launchYouTube(videoId: String) {
-        var intent: Intent = Intent(Intent.ACTION_VIEW)
+        var intent = Intent(Intent.ACTION_VIEW)
         intent.setData(Uri.parse("https://youtube.com/watch?v=$videoId"))
         startActivity(intent)
     }
