@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_account.*
 
 /**
@@ -41,6 +42,11 @@ class AccountFragment : Fragment() {
 
     private fun updateUI(user: FirebaseUser?) {
 
+        account_txt_name.text = ""
+        account_txt_college.text = ""
+        account_txt_department.text = ""
+        account_txt_city.text = ""
+
         account_btn_login.visibility = View.GONE
         account_btn_logout.visibility = View.GONE
         account_txt_message.visibility = View.GONE
@@ -54,7 +60,6 @@ class AccountFragment : Fragment() {
             account_btn_logout.visibility = View.VISIBLE
 
             account_btn_logout.setOnClickListener{
-
                 val alertDialog = AlertDialog.Builder(context)
                 with(alertDialog) {
                     setTitle("Log Out")
@@ -63,13 +68,16 @@ class AccountFragment : Fragment() {
                     setPositiveButton("Yes") { _, _ ->
                         Log.d(javaClass.name, "Trying to logout")
                         mAuth.signOut()
+                        updateUI(mAuth.currentUser)
                     }
                     setNegativeButton("Cancel") { dialog, _ ->
                         dialog.dismiss()
                     }
                 }
-
+                alertDialog.show()
             }
+
+            loadData()
 
         } else {
 
@@ -80,6 +88,21 @@ class AccountFragment : Fragment() {
             }
 
         }
+    }
 
+    private fun loadData(){
+
+        val docRef = FirebaseFirestore.getInstance().collection("users").document("${mAuth.currentUser?.uid}")
+        docRef.get().addOnCompleteListener {
+            task ->
+            val document = task.result
+            account_txt_name?.text = document?.getString("name")
+            account_txt_college.text = document?.getString("collegeName")
+            account_txt_department.text = document?.getString("department")
+            account_txt_city.text = document?.getString("city")
+        }
+
+        val imageUrl = mAuth.currentUser?.photoUrl.toString()
+        account_img_user?.setImageUrl(imageUrl, VolleySingleton.getInstance(context).imageLoader)
     }
 }
