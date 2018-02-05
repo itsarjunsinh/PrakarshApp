@@ -91,8 +91,8 @@ class SignInActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_SIGN_IN) {
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
+                val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
                 Snackbar.make(sign_in_layout_main, "Please wait. Logging you in.", Snackbar.LENGTH_LONG).show()
@@ -100,6 +100,7 @@ class SignInActivity : AppCompatActivity() {
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.d(javaClass.name, "Google sign in failed", e)
+                Snackbar.make(sign_in_layout_main, "Google sign in failed", Snackbar.LENGTH_SHORT).show()
             }
 
         }
