@@ -254,18 +254,24 @@ class AccountFragment : Fragment() {
     private fun saveImage() {
         val fileName = "$imageLabel.png"
         val filePath = "/Pictures/Prakarsh 2018"
-        val storage: File = Environment.getExternalStorageDirectory()
-        val dir = File(storage.absolutePath + filePath)
-        dir.mkdirs()
 
-        val outFile = File(dir, fileName)
-        val outStream = FileOutputStream(outFile)
+        try {
+            val storage: File = Environment.getExternalStorageDirectory()
+            val dir = File(storage.absolutePath + filePath)
+            dir.mkdirs()
 
-        promoImage?.compress(Bitmap.CompressFormat.PNG, 100, outStream)
+            val outFile = File(dir, fileName)
+            val outStream = FileOutputStream(outFile)
 
-        outStream.flush()
-        outStream.close()
+            promoImage?.compress(Bitmap.CompressFormat.PNG, 100, outStream)
 
-        Snackbar.make(account_layout_main, "Image saved in $filePath", Snackbar.LENGTH_SHORT).show()
+            outStream.flush()
+            outStream.close()
+
+            Snackbar.make(account_layout_main, "Image saved in $filePath", Snackbar.LENGTH_SHORT).show()
+        } catch(e: Exception){
+            Log.d(javaClass.name, "Failed to save image. Exception: ${e.message}")
+            Snackbar.make(account_layout_main, "Could not save image.", Snackbar.LENGTH_SHORT).show()
+        }
     }
 }
