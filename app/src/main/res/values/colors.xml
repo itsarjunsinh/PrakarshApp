@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#d32f2f</color>
     <color name="colorAccent">#26a69a</color>
     <color name="colorActionBackground">#00e5ff</color>
+    <color name="colorFacebook">#3b5998</color>
+    <color name="colorInstagram">#e1306c</color>
 </resources>
