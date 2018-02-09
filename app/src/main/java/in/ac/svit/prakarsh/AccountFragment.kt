@@ -220,7 +220,7 @@ class AccountFragment : Fragment() {
                 override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
                     holder.view.promotion_image_layout_download?.setOnClickListener {
 
-                        holder.view.promotion_image_img_promo.buildDrawingCache()
+                        holder.view.promotion_image_img_promo?.buildDrawingCache()
                         val promoImageBitmap = holder.view.promotion_image_img_promo?.drawingCache
 
                         if (context != null) {
