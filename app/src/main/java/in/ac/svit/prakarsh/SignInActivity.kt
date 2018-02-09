@@ -136,7 +136,7 @@ class SignInActivity : AppCompatActivity() {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        sign_in_btn_google.setOnClickListener {
+        sign_in_btn_google?.setOnClickListener {
             val signInIntent: Intent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
