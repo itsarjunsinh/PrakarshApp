@@ -1,7 +1,6 @@
 package `in`.ac.svit.prakarsh
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -10,7 +9,6 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
 import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -30,7 +28,6 @@ import kotlinx.android.synthetic.main.item_promotion_image.view.*
 import org.json.JSONArray
 import java.io.File
 import java.io.FileOutputStream
-import kotlin.math.sign
 
 
 /**
@@ -63,7 +60,7 @@ class AccountFragment : Fragment() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        //super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == 1) {
 
@@ -269,7 +266,7 @@ class AccountFragment : Fragment() {
             outStream.close()
 
             Snackbar.make(account_layout_main, "Image saved in $filePath", Snackbar.LENGTH_SHORT).show()
-        } catch(e: Exception){
+        } catch (e: Exception) {
             Log.d(javaClass.name, "Failed to save image. Exception: ${e.message}")
             Snackbar.make(account_layout_main, "Could not save image.", Snackbar.LENGTH_SHORT).show()
         }
