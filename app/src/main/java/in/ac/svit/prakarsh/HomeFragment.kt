@@ -45,20 +45,6 @@ class HomeFragment : Fragment() {
                 Response.Listener { response ->
                     Log.d(javaClass.name, "JSON Successfully fetched")
 
-                    /*
-                    if (response.has("heading")) {
-                        home_txt_share_heading?.text = response["heading"]?.toString()
-                    }
-
-                    if (response.has("subHeading")) {
-                        home_txt_share_subheading?.text = response["subHeading"]?.toString()
-                    }
-
-                    if (response.has("shareContent")) {
-                        home_txt_share_content?.text = response["shareContent"]?.toString()
-                    }
-                    */
-
                     val prakarshDate = Calendar.getInstance()
                     var year = 0
                     var month = 0
@@ -141,8 +127,10 @@ class HomeFragment : Fragment() {
                         speakerList.add(Speaker(name, shortDescription, description, imageUrl, dataUrl))
                     }
 
-                    home_rv_featured_speakers?.layoutManager = LinearLayoutManager(context)
-                    home_rv_featured_speakers?.adapter = SpeakerRecyclerAdapter(context, speakerList)
+                    home_rv_featured_speakers?.apply {
+                        layoutManager = LinearLayoutManager(context)
+                        adapter = SpeakerRecyclerAdapter(context, speakerList)
+                    }
 
                 }, Response.ErrorListener { error ->
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
@@ -152,7 +140,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun startCountdown(eventDate: Calendar) {
-        val finishedText = "${context?.getString(R.string.event_name)}!"
+        val finishedText = "${context?.getString(R.string.timer_finished)}!"
         val today = Calendar.getInstance()
         val timeInterval = eventDate.timeInMillis - today.timeInMillis
 
