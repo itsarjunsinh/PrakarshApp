@@ -29,10 +29,10 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateViewsFromJson()
-        about_btn_team.setOnClickListener {
+        about_btn_team?.setOnClickListener {
             startActivity(Intent(context, TeamCategoryActivity::class.java))
         }
-        about_btn_sponsors.setOnClickListener {
+        about_btn_sponsors?.setOnClickListener {
             startActivity(Intent(context, SponsorsActivity::class.java))
         }
     }
