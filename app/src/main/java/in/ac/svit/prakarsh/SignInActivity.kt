@@ -127,7 +127,6 @@ class SignInActivity : AppCompatActivity() {
 
     private fun setupLoginButton() {
         account_btn_confirm.visibility = View.GONE
-        sign_in_btn_google.visibility = View.VISIBLE
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.google_login_web_client_id))
@@ -136,9 +135,12 @@ class SignInActivity : AppCompatActivity() {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        sign_in_btn_google?.setOnClickListener {
-            val signInIntent: Intent = mGoogleSignInClient.signInIntent
-            startActivityForResult(signInIntent, RC_SIGN_IN)
+        sign_in_btn_google?.apply {
+            visibility = View.VISIBLE
+            setOnClickListener {
+                val signInIntent: Intent = mGoogleSignInClient.signInIntent
+                startActivityForResult(signInIntent, RC_SIGN_IN)
+            }
         }
 
     }

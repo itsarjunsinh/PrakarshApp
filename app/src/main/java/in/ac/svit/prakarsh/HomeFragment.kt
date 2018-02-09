@@ -212,9 +212,12 @@ class HomeFragment : Fragment() {
             holder?.view?.featured_speakers_txt_name?.text = speakerList[position].name
             holder?.view?.featured_speakers_txt_short_description?.text = speakerList[position].shortDescription
             holder?.view?.featured_speakers_txt_description?.text = speakerList[position].description
-            holder?.view?.featured_speakers_img_speaker?.setDefaultImageResId(R.drawable.ic_image_black)
-            holder?.view?.featured_speakers_img_speaker?.setErrorImageResId(R.drawable.ic_broken_image_black)
-            holder?.view?.featured_speakers_img_speaker?.setImageUrl(speakerList[position].imageUrl,VolleySingleton.getInstance(context).imageLoader)
+            holder?.view?.featured_speakers_img_speaker?.apply {
+                setDefaultImageResId(R.drawable.ic_image_black)
+                setErrorImageResId(R.drawable.ic_broken_image_black)
+                setImageUrl(speakerList[position].imageUrl,VolleySingleton.getInstance(context).imageLoader)
+            }
+
             holder?.view?.setOnClickListener{
                 Log.d(javaClass.name,"${speakerList[position].name} Clicked")
                 var intent = Intent(context, EventInfoActivity::class.java)

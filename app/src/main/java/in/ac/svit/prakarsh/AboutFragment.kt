@@ -47,14 +47,21 @@ class AboutFragment : Fragment() {
                         about_txt_description?.text = response["about"]?.toString()
                     }
 
-                    about_img_video?.setDefaultImageResId(R.drawable.ic_image_black)
-                    about_img_video?.setErrorImageResId(R.drawable.ic_broken_image_black)
+                    about_img_video?.apply {
+                        setDefaultImageResId(R.drawable.ic_image_black)
+                        setErrorImageResId(R.drawable.ic_broken_image_black)
+                    }
+
                     if (response.has("youtubeVideoId")) {
                         val youtubeVideoId = response["youtubeVideoId"].toString()
-                        about_img_video?.setImageUrl("https://img.youtube.com/vi/$youtubeVideoId/maxresdefault.jpg", VolleySingleton.getInstance(context).imageLoader)
-                        about_img_video?.setOnClickListener {
-                            launchYouTube(youtubeVideoId)
+
+                        about_img_video?.apply {
+                            setImageUrl("https://img.youtube.com/vi/$youtubeVideoId/maxresdefault.jpg", VolleySingleton.getInstance(context).imageLoader)
+                            setOnClickListener {
+                                launchYouTube(youtubeVideoId)
+                            }
                         }
+
                         about_img_play?.setOnClickListener {
                             launchYouTube(youtubeVideoId)
                         }

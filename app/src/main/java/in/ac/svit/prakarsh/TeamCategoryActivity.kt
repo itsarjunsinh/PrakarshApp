@@ -33,7 +33,6 @@ class TeamCategoryActivity : AppCompatActivity() {
     }
 
     private fun updateViewFromJson() {
-        team_category_rv_main?.layoutManager = GridLayoutManager(applicationContext, 2)
 
         val url = getString(R.string.url_team_category)
         val req = JsonObjectRequest(Request.Method.GET, url, null,
@@ -64,7 +63,10 @@ class TeamCategoryActivity : AppCompatActivity() {
                         dataAdapterList.add(TeamCategoryDataAdapter(name, iconUrl, dataUrl))
                     }
 
-                    team_category_rv_main?.adapter = TeamCategoryRecyclerAdapter(applicationContext, dataAdapterList)
+                    team_category_rv_main?.apply {
+                        layoutManager = GridLayoutManager(applicationContext, 2)
+                        adapter = TeamCategoryRecyclerAdapter(applicationContext, dataAdapterList)
+                    }
                 }, Response.ErrorListener { error ->
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
@@ -90,9 +92,12 @@ class TeamCategoryActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
             holder?.view?.team_category_txt_name?.text = dataAdapterList[position].name
-            holder?.view?.team_category_img_icon?.setDefaultImageResId(R.drawable.ic_image_black)
-            holder?.view?.team_category_img_icon?.setErrorImageResId(R.drawable.ic_broken_image_black)
-            holder?.view?.team_category_img_icon?.setImageUrl(dataAdapterList[position].iconUrl, VolleySingleton.getInstance(context).imageLoader)
+            holder?.view?.team_category_img_icon?.apply {
+                setDefaultImageResId(R.drawable.ic_image_black)
+                setErrorImageResId(R.drawable.ic_broken_image_black)
+                setImageUrl(dataAdapterList[position].iconUrl, VolleySingleton.getInstance(context).imageLoader)
+            }
+
             holder?.view?.setOnClickListener {
                 Log.d(javaClass.name, "${dataAdapterList[position].name} Clicked")
                 var intent = Intent(context, TeamInfoActivity::class.java)

@@ -35,7 +35,6 @@ class SponsorsActivity : AppCompatActivity() {
     }
 
     private fun updateViewsFromJson() {
-        sponsors_rv_main?.layoutManager = GridLayoutManager(applicationContext, 2)
 
         val url = applicationContext?.getString(R.string.url_sponsors)
         val req = JsonObjectRequest(Request.Method.GET, url, null,
@@ -50,7 +49,12 @@ class SponsorsActivity : AppCompatActivity() {
                         val websiteUrl = jsonArray.getJSONObject(i).getString("websiteUrl")
                         sponsorsDataAdapterList.add(SponsorsDataAdapter(name, description, imageUrl, websiteUrl))
                     }
-                    sponsors_rv_main?.adapter = SponsorsRecyclerAdapter(applicationContext, sponsorsDataAdapterList)
+
+
+                    sponsors_rv_main?.apply {
+                        layoutManager = GridLayoutManager(applicationContext, 2)
+                        adapter = SponsorsRecyclerAdapter(applicationContext, sponsorsDataAdapterList)
+                    }
                 }, Response.ErrorListener { error ->
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
@@ -76,13 +80,16 @@ class SponsorsActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
             holder?.view?.sponsor_name?.text = sponsorsDataAdapterList[position].name
-            holder?.view?.sponsor_img_main?.setDefaultImageResId(R.drawable.ic_image_black)
-            holder?.view?.sponsor_img_main?.setErrorImageResId(R.drawable.ic_broken_image_black)
-            holder?.view?.sponsor_img_main?.setImageUrl(sponsorsDataAdapterList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
+            holder?.view?.sponsor_img_main?.apply {
+                setDefaultImageResId(R.drawable.ic_image_black)
+                setErrorImageResId(R.drawable.ic_broken_image_black)
+                setImageUrl(sponsorsDataAdapterList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
+            }
+
             holder?.view?.setOnClickListener {
                 Log.d(javaClass.name, "${sponsorsDataAdapterList[position].name} Clicked")
-                val webpage = Uri.parse(sponsorsDataAdapterList[position].websiteUrl)
-                var intent = Intent(Intent.ACTION_VIEW, webpage)
+                val website = Uri.parse(sponsorsDataAdapterList[position].websiteUrl)
+                var intent = Intent(Intent.ACTION_VIEW, website)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 try {
                     context?.startActivity(intent)

@@ -31,7 +31,6 @@ class TeamInfoActivity : AppCompatActivity() {
     }
 
     private fun updateViewsFromJson(url: String) {
-        team_info_rv_main?.layoutManager = GridLayoutManager(applicationContext, 2)
 
         val req = JsonObjectRequest(Request.Method.GET, url, null,
                 Response.Listener { response ->
@@ -66,7 +65,10 @@ class TeamInfoActivity : AppCompatActivity() {
                         dataAdapterList.add(TeamInfoDataAdapter(name, role, department, imageUrl))
                     }
 
-                    team_info_rv_main.adapter = TeamInfoRecyclerAdapter(applicationContext, dataAdapterList)
+                    team_info_rv_main?.apply {
+                        layoutManager = GridLayoutManager(applicationContext, 2)
+                        adapter = TeamInfoRecyclerAdapter(applicationContext, dataAdapterList)
+                    }
                 }, Response.ErrorListener { error ->
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
@@ -95,9 +97,11 @@ class TeamInfoActivity : AppCompatActivity() {
             holder?.view?.team_info_txt_name?.text = dataAdapterList[position].name
             holder?.view?.team_info_txt_role?.text = dataAdapterList[position].role
             holder?.view?.team_info_txt_department?.text = dataAdapterList[position].department
-            holder?.view?.team_info_img_member?.setDefaultImageResId(R.drawable.ic_image_black)
-            holder?.view?.team_info_img_member?.setErrorImageResId(R.drawable.ic_broken_image_black)
-            holder?.view?.team_info_img_member?.setImageUrl(dataAdapterList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
+            holder?.view?.team_info_img_member?.apply {
+                setDefaultImageResId(R.drawable.ic_image_black)
+                setErrorImageResId(R.drawable.ic_broken_image_black)
+                setImageUrl(dataAdapterList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
+            }
         }
     }
 }

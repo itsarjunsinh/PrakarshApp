@@ -35,7 +35,6 @@ class EventsCategoryFragment: Fragment() {
     }
 
     private fun updateViewsFromJson() {
-        events_category_rv_main?.layoutManager = GridLayoutManager(context,2)
 
         val url = context?.getString(R.string.url_events_category)
         val req = JsonObjectRequest(Request.Method.GET,url,null,
@@ -76,7 +75,12 @@ class EventsCategoryFragment: Fragment() {
 
                         dataAdapterList.add(CategoryDataAdapter(name, tagline, department, iconUrl, dataUrl))
                     }
-                    events_category_rv_main?.adapter = CategoryRecyclerAdapter(context, dataAdapterList)
+
+                    events_category_rv_main?.apply {
+                        layoutManager = GridLayoutManager(context, 2)
+                        adapter = CategoryRecyclerAdapter(context, dataAdapterList)
+                    }
+
                 }, Response.ErrorListener {
             error ->
             Log.d(javaClass.name,"Volley Response Error Occurred, URL: $url Error: ${error.message}")
@@ -102,12 +106,16 @@ class EventsCategoryFragment: Fragment() {
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
+
             holder?.view?.category_txt_title?.text = dataAdapterList[position].title
             holder?.view?.category_txt_tagline?.text = dataAdapterList[position].tagline
             holder?.view?.category_txt_department?.text = dataAdapterList[position].department
-            holder?.view?.category_img_icon?.setDefaultImageResId(R.drawable.ic_image_black)
-            holder?.view?.category_img_icon?.setErrorImageResId(R.drawable.ic_broken_image_black)
-            holder?.view?.category_img_icon?.setImageUrl(dataAdapterList[position].iconUrl,VolleySingleton.getInstance(context).imageLoader)
+            holder?.view?.category_img_icon?.apply {
+                setDefaultImageResId(R.drawable.ic_image_black)
+                setErrorImageResId(R.drawable.ic_broken_image_black)
+                setImageUrl(dataAdapterList[position].iconUrl,VolleySingleton.getInstance(context).imageLoader)
+            }
+
             holder?.view?.setOnClickListener{
                 Log.d(javaClass.name,"${dataAdapterList[position].title} Clicked")
                 var intent = Intent(context, EventsSubcategoryActivity::class.java)

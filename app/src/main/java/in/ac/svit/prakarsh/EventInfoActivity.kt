@@ -80,11 +80,15 @@ class EventInfoActivity : AppCompatActivity() {
                         contactDetailsList.add(ContactDetails(name, number))
                     }
 
-                    event_info_rv_details?.layoutManager = LinearLayoutManager(applicationContext)
-                    event_info_rv_details?.adapter = DetailsRecyclerAdapter(eventDetailsList)
+                    event_info_rv_details?.apply {
+                        layoutManager = LinearLayoutManager(applicationContext)
+                        adapter = DetailsRecyclerAdapter(eventDetailsList)
+                    }
 
-                    event_info_rv_contact_details?.layoutManager = LinearLayoutManager(applicationContext)
-                    event_info_rv_contact_details?.adapter = ContactDetailsRecyclerAdapter(applicationContext, contactDetailsList)
+                    event_info_rv_contact_details?.apply {
+                        layoutManager = LinearLayoutManager(applicationContext)
+                        adapter = ContactDetailsRecyclerAdapter(applicationContext, contactDetailsList)
+                    }
 
                 }, Response.ErrorListener { error ->
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
@@ -133,7 +137,6 @@ class EventInfoActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
-            Log.d(javaClass.name, "$position - ${contactDetailsList[position].name} adding views")
             holder?.view?.event_contact_details_txt_name?.text = contactDetailsList[position].name
             holder?.view?.event_contact_details_txt_number?.text = contactDetailsList[position].number
             holder?.view?.event_contact_details_btn_call?.setOnClickListener {

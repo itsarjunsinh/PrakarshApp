@@ -91,30 +91,33 @@ class AccountFragment : Fragment() {
         account_btn_logout?.visibility = View.GONE
         account_card_promotion?.visibility = View.GONE
 
-        account_img_user?.setDefaultImageResId(R.drawable.ic_person_black)
-        account_img_user?.setImageUrl(null, VolleySingleton.getInstance(context).imageLoader)
+        account_img_user?.apply {
+            setDefaultImageResId(R.drawable.ic_person_black)
+            setImageUrl(null, VolleySingleton.getInstance(context).imageLoader)
+        }
 
         if (user != null) {
 
             account_card_promotion?.visibility = View.VISIBLE
-            account_btn_logout?.visibility = View.VISIBLE
+            account_btn_logout?.apply {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    val alertDialog = AlertDialog.Builder(context)
+                    with(alertDialog) {
+                        setTitle("Log Out")
+                        setMessage("Are you sure?")
 
-            account_btn_logout?.setOnClickListener {
-                val alertDialog = AlertDialog.Builder(context)
-                with(alertDialog) {
-                    setTitle("Log Out")
-                    setMessage("Are you sure?")
-
-                    setPositiveButton("Yes") { _, _ ->
-                        Log.d(javaClass.name, "Trying to logout")
-                        mAuth.signOut()
-                        updateUI(null)
+                        setPositiveButton("Yes") { _, _ ->
+                            Log.d(javaClass.name, "Trying to logout")
+                            mAuth.signOut()
+                            updateUI(null)
+                        }
+                        setNegativeButton("Cancel") { dialog, _ ->
+                            dialog.dismiss()
+                        }
                     }
-                    setNegativeButton("Cancel") { dialog, _ ->
-                        dialog.dismiss()
-                    }
+                    alertDialog.show()
                 }
-                alertDialog.show()
             }
 
             loadData()
@@ -124,10 +127,12 @@ class AccountFragment : Fragment() {
             //Show log in status in TextView for College Name
             account_txt_college?.text = "Not logged in."
 
-            account_btn_login?.visibility = View.VISIBLE
-            account_btn_login?.setOnClickListener {
-                val intent = Intent(context?.applicationContext, SignInActivity::class.java)
-                startActivity(intent)
+            account_btn_login?.apply {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    val intent = Intent(context?.applicationContext, SignInActivity::class.java)
+                    startActivity(intent)
+                }
             }
 
         }
@@ -184,8 +189,10 @@ class AccountFragment : Fragment() {
                 promotionImageList.add(PromotionImage(label, imageUrl))
             }
 
-            account_rv_promotion_images?.layoutManager = LinearLayoutManager(context)
-            account_rv_promotion_images?.adapter = PromotionImageAdapter(context, promotionImageList)
+            account_rv_promotion_images?.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = PromotionImageAdapter(context, promotionImageList)
+            }
 
         }, Response.ErrorListener {
 
@@ -215,36 +222,38 @@ class AccountFragment : Fragment() {
 
         override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
             holder?.view?.promotion_image_txt_label?.text = promotionImageList[position].label
-            holder?.view?.promotion_image_img_promo?.setImageUrl(promotionImageList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
-            holder?.view?.promotion_image_img_promo?.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-                override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                    holder.view.promotion_image_layout_download?.setOnClickListener {
+            holder?.view?.promotion_image_img_promo?.apply {
+                setImageUrl(promotionImageList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
+                addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                    override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+                        holder.view.promotion_image_layout_download?.setOnClickListener {
 
-                        holder.view.promotion_image_img_promo?.buildDrawingCache()
-                        val promoImageBitmap = holder.view.promotion_image_img_promo?.drawingCache
+                            holder.view.promotion_image_img_promo?.buildDrawingCache()
+                            val promoImageBitmap = holder.view.promotion_image_img_promo?.drawingCache
 
-                        if (context != null) {
+                            if (context != null) {
 
-                            Log.d(javaClass.name, "Context is not null.")
+                                Log.d(javaClass.name, "Context is not null.")
 
-                            imageLabel = promotionImageList[position].label
-                            promoImage = promoImageBitmap!!
+                                imageLabel = promotionImageList[position].label
+                                promoImage = promoImageBitmap!!
 
-                            val storageRead = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
-                            val storageWrite = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                val storageRead = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                val storageWrite = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-                            if (storageRead == PackageManager.PERMISSION_GRANTED && storageWrite == PackageManager.PERMISSION_GRANTED) {
-                                Log.d(javaClass.name, "Storage permission has already been granted.")
-                                saveImage()
-                            } else {
-                                Log.d(javaClass.name, "Requesting storage permission.")
-                                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+                                if (storageRead == PackageManager.PERMISSION_GRANTED && storageWrite == PackageManager.PERMISSION_GRANTED) {
+                                    Log.d(javaClass.name, "Storage permission has already been granted.")
+                                    saveImage()
+                                } else {
+                                    Log.d(javaClass.name, "Requesting storage permission.")
+                                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+                                }
+
                             }
-
                         }
                     }
-                }
-            })
+                })
+            }
         }
     }
 
