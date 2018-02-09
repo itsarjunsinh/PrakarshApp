@@ -44,6 +44,7 @@ class TeamInfoActivity : AppCompatActivity() {
 
                         var name = ""
                         var role = ""
+                        var department = ""
                         var imageUrl = ""
 
                         if (jsonArray.getJSONObject(i).has("name")) {
@@ -54,11 +55,15 @@ class TeamInfoActivity : AppCompatActivity() {
                             role = jsonArray.getJSONObject(i).getString("role")
                         }
 
+                        if (jsonArray.getJSONObject(i).has("department")) {
+                            department = jsonArray.getJSONObject(i).getString("department")
+                        }
+
                         if (jsonArray.getJSONObject(i).has("imageUrl")) {
                             imageUrl = jsonArray.getJSONObject(i).getString("imageUrl")
                         }
 
-                        dataAdapterList.add(TeamInfoDataAdapter(name, role, imageUrl))
+                        dataAdapterList.add(TeamInfoDataAdapter(name, role, department, imageUrl))
                     }
 
                     team_info_rv_main.adapter = TeamInfoRecyclerAdapter(applicationContext, dataAdapterList)
@@ -69,7 +74,7 @@ class TeamInfoActivity : AppCompatActivity() {
         VolleySingleton.getInstance(applicationContext).requestQueue.add(req.setShouldCache(false))
     }
 
-    class TeamInfoDataAdapter(val name: String, val role: String, val imageUrl: String)
+    class TeamInfoDataAdapter(val name: String, val role: String, val department: String, val imageUrl: String)
 
     class TeamInfoRecyclerAdapter(private val context: Context, private val dataAdapterList: ArrayList<TeamInfoDataAdapter>) : RecyclerView.Adapter<TeamInfoRecyclerAdapter.CustomViewHolder>() {
 
@@ -89,9 +94,10 @@ class TeamInfoActivity : AppCompatActivity() {
             Log.d(javaClass.name, "${dataAdapterList[position].name} view")
             holder?.view?.team_info_txt_name?.text = dataAdapterList[position].name
             holder?.view?.team_info_txt_role?.text = dataAdapterList[position].role
-            holder?.view?.team_info_img_main?.setDefaultImageResId(R.drawable.ic_image_black)
-            holder?.view?.team_info_img_main?.setErrorImageResId(R.drawable.ic_broken_image_black)
-            holder?.view?.team_info_img_main?.setImageUrl(dataAdapterList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
+            holder?.view?.team_info_txt_department?.text = dataAdapterList[position].department
+            holder?.view?.team_info_img_member?.setDefaultImageResId(R.drawable.ic_image_black)
+            holder?.view?.team_info_img_member?.setErrorImageResId(R.drawable.ic_broken_image_black)
+            holder?.view?.team_info_img_member?.setImageUrl(dataAdapterList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
         }
     }
 }

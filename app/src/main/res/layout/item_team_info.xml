@@ -7,48 +7,59 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="4dp">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="@dimen/padding_default" >
+        android:orientation="vertical"
+        android:padding="@dimen/padding_default">
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/team_info_img_main"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_marginBottom="@dimen/margin_default"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/team_info_txt_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:scaleType="fitCenter" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/team_info_card_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:cardCornerRadius="@dimen/cardview_default_radius">
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/team_info_img_member"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_marginBottom="@dimen/margin_default"
+                android:scaleType="fitCenter" />
+
+        </android.support.v7.widget.CardView>
 
         <TextView
             android:id="@+id/team_info_txt_name"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Title"
-            app:layout_constraintTop_toBottomOf="@+id/team_info_img_main"
-            app:layout_constraintBottom_toTopOf="@id/team_info_txt_role"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center"
             android:maxLines="2"
             android:textAlignment="center"
-            android:textSize="@dimen/textsize_listitem_title" />
+            android:textSize="@dimen/textsize_listitem_title"
+            tools:text="Name" />
 
         <TextView
             android:id="@+id/team_info_txt_role"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Title"
-            app:layout_constraintTop_toBottomOf="@+id/team_info_txt_name"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center"
             android:maxLines="2"
             android:textAlignment="center"
-            android:textSize="@dimen/textsize_listitem_description" />
+            android:textSize="@dimen/textsize_listitem_description"
+            tools:text="Role" />
 
-    </android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/team_info_txt_department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_default"
+            android:maxLines="2"
+            android:textAlignment="center"
+            android:textSize="@dimen/textsize_listitem_description"
+            tools:text="Department" />
+
+    </LinearLayout>
 </android.support.v7.widget.CardView>
