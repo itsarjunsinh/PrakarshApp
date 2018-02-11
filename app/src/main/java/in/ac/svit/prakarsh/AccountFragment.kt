@@ -2,7 +2,6 @@ package `in`.ac.svit.prakarsh
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -82,23 +81,16 @@ class AccountFragment : Fragment() {
 
     private fun updateUI(user: FirebaseUser?) {
 
-        account_txt_name?.text = ""
-        account_txt_college?.text = ""
-        account_txt_department?.text = ""
-        account_txt_city?.text = ""
-
         account_btn_login?.visibility = View.GONE
         account_btn_logout?.visibility = View.GONE
-        account_card_promotion?.visibility = View.GONE
-
-        account_img_user?.apply {
-            setDefaultImageResId(R.drawable.ic_person_black)
-            setImageUrl(null, VolleySingleton.getInstance(context).imageLoader)
-        }
+        account_img_user?.setDefaultImageResId(R.drawable.ic_person_black)
 
         if (user != null) {
 
-            account_card_promotion?.visibility = View.VISIBLE
+            //Make views visible
+            account_layout_promotion?.visibility = View.VISIBLE
+
+            //Handle user logout
             account_btn_logout?.apply {
                 visibility = View.VISIBLE
                 setOnClickListener {
@@ -110,6 +102,7 @@ class AccountFragment : Fragment() {
                         setPositiveButton("Yes") { _, _ ->
                             Log.d(javaClass.name, "Trying to logout")
                             mAuth.signOut()
+
                             updateUI(null)
                         }
                         setNegativeButton("Cancel") { dialog, _ ->
@@ -124,9 +117,17 @@ class AccountFragment : Fragment() {
 
         } else {
 
+            //Empty Views (In case user just logged out)
+            account_txt_name?.text = ""
+            account_txt_department?.text = ""
+            account_txt_city?.text = ""
+            account_img_user?.setImageUrl(null, VolleySingleton.getInstance(context).imageLoader)
+            account_layout_promotion?.visibility = View.GONE
+
             //Show log in status in TextView for College Name
             account_txt_college?.text = "Not logged in."
 
+            //Show Login button
             account_btn_login?.apply {
                 visibility = View.VISIBLE
                 setOnClickListener {
@@ -140,6 +141,7 @@ class AccountFragment : Fragment() {
 
     private fun loadData() {
 
+        //Fetch user's information from Firestore document and display
         val docRef = FirebaseFirestore.getInstance().collection("users").document("${mAuth.currentUser?.uid}")
         docRef.get().addOnCompleteListener { task ->
             val document = task.result
@@ -191,7 +193,7 @@ class AccountFragment : Fragment() {
 
             account_rv_promotion_images?.apply {
                 layoutManager = LinearLayoutManager(context)
-                adapter = PromotionImageAdapter(context, promotionImageList)
+                adapter = PromotionImageAdapter(promotionImageList)
             }
 
         }, Response.ErrorListener {
@@ -208,7 +210,7 @@ class AccountFragment : Fragment() {
 
     class CustomViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
-    private inner class PromotionImageAdapter(private val context: Context?, private val promotionImageList: ArrayList<PromotionImage>) : RecyclerView.Adapter<CustomViewHolder>() {
+    private inner class PromotionImageAdapter(private val promotionImageList: ArrayList<PromotionImage>) : RecyclerView.Adapter<CustomViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
             val layoutInflater = LayoutInflater.from(parent?.context)
@@ -276,7 +278,7 @@ class AccountFragment : Fragment() {
 
             Snackbar.make(account_layout_main, "Image saved in $filePath", Snackbar.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            Log.d(javaClass.name, "Failed to save image. Exception: ${e.message}")
+            Log.d(javaClass.name, "Failed to save image. Exception: ${e.message}", e)
             Snackbar.make(account_layout_main, "Could not save image.", Snackbar.LENGTH_SHORT).show()
         }
     }

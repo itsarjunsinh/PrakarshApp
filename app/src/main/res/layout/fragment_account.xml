@@ -142,6 +142,7 @@
         app:layout_constraintTop_toBottomOf="@id/account_card_info">
 
         <LinearLayout
+            android:id="@+id/account_layout_promotion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -161,7 +162,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_default"
-                android:visibility="gone"
                 app:cardElevation="2dp"
                 tools:visibility="visible">
 
