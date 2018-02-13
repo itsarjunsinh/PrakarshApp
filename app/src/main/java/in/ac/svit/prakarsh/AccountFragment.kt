@@ -36,17 +36,21 @@ import java.io.FileOutputStream
 class AccountFragment : Fragment() {
 
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var promoImage: Bitmap
+
+    // Request code to be assigned when requesting permission.
+    private val RC_PERMISSION = 2001
+
+    private var promoImage: Bitmap? = null
     private var imageLabel: String? = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_account, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Load data.
         mAuth = FirebaseAuth.getInstance()
         updateUI(mAuth.currentUser)
     }
@@ -54,6 +58,7 @@ class AccountFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        // Refresh data.
         mAuth = FirebaseAuth.getInstance()
         updateUI(mAuth.currentUser)
     }
@@ -61,17 +66,20 @@ class AccountFragment : Fragment() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode == 1) {
-
+        if (requestCode == RC_PERMISSION) {
+            // Check whether all requested permissions have been granted.
             var flag = 1
-
             for (i in 0..(permissions.size - 1)) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) flag = 0
             }
 
             if (flag == 1) {
                 Log.d(javaClass.name, "All permissions were granted.")
-                saveImage()
+
+                // Save image if promotion image bitmap is present.
+                if (promoImage != null) {
+                    saveImage()
+                }
             } else {
                 Log.d(javaClass.name, "A permission request was declined.")
             }
@@ -81,16 +89,20 @@ class AccountFragment : Fragment() {
 
     private fun updateUI(user: FirebaseUser?) {
 
+        // Hide login and logout buttons.
         account_btn_login?.visibility = View.GONE
         account_btn_logout?.visibility = View.GONE
+
+        // Set default image for user photo.
         account_img_user?.setDefaultImageResId(R.drawable.ic_person_black)
 
         if (user != null) {
+            /* User is logged in. */
 
-            //Make views visible
+            // Make promotion layout visible.
             account_layout_promotion?.visibility = View.VISIBLE
 
-            //Handle user logout
+            // Configure user logout button.
             account_btn_logout?.apply {
                 visibility = View.VISIBLE
                 setOnClickListener {
@@ -116,18 +128,19 @@ class AccountFragment : Fragment() {
             loadData()
 
         } else {
+            /* User is not logged in. */
 
-            //Empty Views (In case user just logged out)
+            // Empty views (In case user just logged out).
             account_txt_name?.text = ""
             account_txt_department?.text = ""
             account_txt_city?.text = ""
             account_img_user?.setImageUrl(null, VolleySingleton.getInstance(context).imageLoader)
             account_layout_promotion?.visibility = View.GONE
 
-            //Show log in status in TextView for College Name
+            // Show log in status in college name TextView.
             account_txt_college?.text = "Not logged in."
 
-            //Show Login button
+            // Configure login button.
             account_btn_login?.apply {
                 visibility = View.VISIBLE
                 setOnClickListener {
@@ -140,20 +153,28 @@ class AccountFragment : Fragment() {
     }
 
     private fun loadData() {
+        /*
+         * Fetch user's data from Firestore document.
+         * Display user's data in views.
+         * Fetch promotion information and images.
+         */
 
-        //Fetch user's information from Firestore document and display
         val docRef = FirebaseFirestore.getInstance().collection("users").document("${mAuth.currentUser?.uid}")
         docRef.get().addOnCompleteListener { task ->
             val document = task.result
+
+            // Show user data in TextViews.
             account_txt_name?.text = document?.getString("name")
             account_txt_college?.text = document?.getString("collegeName")
             account_txt_department?.text = document?.getString("department")
             account_txt_city?.text = document?.getString("city")
         }
 
+        // Show user profile image.
         val imageUrl = mAuth.currentUser?.photoUrl.toString()
         account_img_user?.setImageUrl(imageUrl, VolleySingleton.getInstance(context).imageLoader)
 
+        // Fetch promotion information.
         val url = getString(R.string.url_promotion)
         val req = JsonObjectRequest(Request.Method.GET, url, null, Response.Listener { response ->
 
@@ -228,10 +249,10 @@ class AccountFragment : Fragment() {
                 setImageUrl(promotionImageList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
                 addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
                     override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                        holder.view.promotion_image_layout_download?.setOnClickListener {
+                        holder?.view?.promotion_image_layout_download?.setOnClickListener {
 
-                            holder.view.promotion_image_img_promo?.buildDrawingCache()
-                            val promoImageBitmap = holder.view.promotion_image_img_promo?.drawingCache
+                            holder?.view?.promotion_image_img_promo?.buildDrawingCache()
+                            val promoImageBitmap = holder?.view?.promotion_image_img_promo?.drawingCache
 
                             if (context != null) {
 
@@ -244,11 +265,13 @@ class AccountFragment : Fragment() {
                                 val storageWrite = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
                                 if (storageRead == PackageManager.PERMISSION_GRANTED && storageWrite == PackageManager.PERMISSION_GRANTED) {
+                                    // Storage permission already granted, save image.
                                     Log.d(javaClass.name, "Storage permission has already been granted.")
                                     saveImage()
                                 } else {
+                                    // Storage permission not granted, request permission from user.
                                     Log.d(javaClass.name, "Requesting storage permission.")
-                                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+                                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), RC_PERMISSION)
                                 }
 
                             }
@@ -260,6 +283,11 @@ class AccountFragment : Fragment() {
     }
 
     private fun saveImage() {
+        /*
+         * Save (promotion) image in user's device.
+         * If save directory path doesn't exist, make required folders.
+         */
+
         val fileName = "$imageLabel.png"
         val filePath = "/Pictures/Prakarsh 2018"
 
