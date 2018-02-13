@@ -43,10 +43,12 @@
                 android:id="@+id/promotion_image_img_download"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
+                android:visibility="invisible"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/promotion_image_txt_download"
                 app:layout_constraintStart_toEndOf="@id/promotion_image_txt_label"
-                app:srcCompat="@drawable/ic_download_black" />
+                app:srcCompat="@drawable/ic_download_black"
+                tools:visibility="visible"/>
 
             <TextView
                 android:id="@+id/promotion_image_txt_download"
@@ -56,10 +58,12 @@
                 android:gravity="center"
                 android:text="Download"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@id/promotion_image_img_download"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/promotion_image_img_download"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
 
         </android.support.constraint.ConstraintLayout>
 
