@@ -249,73 +249,77 @@ class AccountFragment : Fragment() {
                 setImageUrl(promotionImageList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
                 addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
                     override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                        // Promotion image loaded.
 
-                        // Show download icon and text.
-                        holder?.view?.promotion_image_img_download?.visibility = View.VISIBLE
-                        holder?.view?.promotion_image_txt_download?.visibility = View.VISIBLE
+                        if (holder?.view?.promotion_image_img_promo?.drawable != null) {
+                            // Promotion image loaded.
 
-                        // Configure download layout onClick.
-                        holder?.view?.promotion_image_layout_download?.setOnClickListener {
+                            // Show download icon and text.
+                            holder?.view?.promotion_image_img_download?.visibility = View.VISIBLE
+                            holder?.view?.promotion_image_txt_download?.visibility = View.VISIBLE
 
-                            // Set image filename from image label.
-                            imageFileName = promotionImageList[position].label
+                            // Configure download layout onClick.
+                            holder?.view?.promotion_image_layout_download?.setOnClickListener {
 
-                            // Save promotion image as bitmap
-                            holder?.view?.promotion_image_img_promo?.buildDrawingCache()
-                            promoImage = holder?.view?.promotion_image_img_promo?.drawingCache
+                                // Set image filename from image label.
+                                imageFileName = promotionImageList[position].label
 
-                            if (context != null && promoImage != null) {
+                                // Save promotion image as bitmap
+                                holder?.view?.promotion_image_img_promo?.buildDrawingCache()
+                                promoImage = holder?.view?.promotion_image_img_promo?.drawingCache
 
-                                Log.d(javaClass.name, "Context is not null.")
+                                if (context != null && promoImage != null) {
 
-                                val storageRead = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
-                                val storageWrite = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    Log.d(javaClass.name, "Context is not null.")
 
-                                if (storageRead == PackageManager.PERMISSION_GRANTED && storageWrite == PackageManager.PERMISSION_GRANTED) {
-                                    // Storage permission already granted, save image.
-                                    Log.d(javaClass.name, "Storage permission has already been granted.")
-                                    saveImage()
-                                } else {
-                                    // Storage permission not granted, request permission from user.
-                                    Log.d(javaClass.name, "Requesting storage permission.")
-                                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), RC_PERMISSION)
+                                    val storageRead = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                    val storageWrite = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+                                    if (storageRead == PackageManager.PERMISSION_GRANTED && storageWrite == PackageManager.PERMISSION_GRANTED) {
+                                        // Storage permission already granted, save image.
+                                        Log.d(javaClass.name, "Storage permission has already been granted.")
+                                        saveImage()
+                                    } else {
+                                        // Storage permission not granted, request permission from user.
+                                        Log.d(javaClass.name, "Requesting storage permission.")
+                                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), RC_PERMISSION)
+                                    }
+
                                 }
-
                             }
                         }
+
                     }
-            })
+                })
+            }
         }
     }
-}
 
-private fun saveImage() {
-    /*
-     * Save (promotion) image in user's device.
-     * If save directory path doesn't exist, make required folders.
-     */
+    private fun saveImage() {
+        /*
+         * Save (promotion) image in user's device.
+         * If save directory path doesn't exist, make required folders.
+         */
 
-    val fileName = "$imageFileName.png"
-    val filePath = "/Pictures/Prakarsh 2018"
+        val fileName = "$imageFileName.png"
+        val filePath = "/Pictures/Prakarsh 2018"
 
-    try {
-        val storage: File = Environment.getExternalStorageDirectory()
-        val dir = File(storage.absolutePath + filePath)
-        dir.mkdirs()
+        try {
+            val storage: File = Environment.getExternalStorageDirectory()
+            val dir = File(storage.absolutePath + filePath)
+            dir.mkdirs()
 
-        val outFile = File(dir, fileName)
-        val outStream = FileOutputStream(outFile)
+            val outFile = File(dir, fileName)
+            val outStream = FileOutputStream(outFile)
 
-        promoImage?.compress(Bitmap.CompressFormat.PNG, 100, outStream)
+            promoImage?.compress(Bitmap.CompressFormat.PNG, 100, outStream)
 
-        outStream.flush()
-        outStream.close()
+            outStream.flush()
+            outStream.close()
 
-        Snackbar.make(account_layout_main, "Image saved in $filePath", Snackbar.LENGTH_SHORT).show()
-    } catch (e: Exception) {
-        Log.d(javaClass.name, "Failed to save image. Exception: ${e.message}", e)
-        Snackbar.make(account_layout_main, "Could not save image.", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(account_layout_main, "Image saved in $filePath", Snackbar.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Log.d(javaClass.name, "Failed to save image. Exception: ${e.message}", e)
+            Snackbar.make(account_layout_main, "Could not save image.", Snackbar.LENGTH_SHORT).show()
+        }
     }
-}
 }
