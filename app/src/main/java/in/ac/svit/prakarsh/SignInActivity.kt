@@ -25,6 +25,7 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
+    // Request code to be assigned when starting Google login activity.
     private val RC_SIGN_IN = 9001
 
     private var phoneNumber: Long = 0
@@ -43,8 +44,8 @@ class SignInActivity : AppCompatActivity() {
             var validPhone = false
             var validText = false
 
-            //Validate Phone Number
-            val phoneNumber = sign_in_et_phone.text.toString()
+            // Validate phone number.
+            val phoneNumber = sign_in_et_phone?.text.toString()
             val numberLength = phoneNumber.length
 
             if (numberLength == 10 || numberLength == 12) {
@@ -59,7 +60,7 @@ class SignInActivity : AppCompatActivity() {
 
             }
 
-            //Validate Text Fields
+            // Validate text fields.
             name = sign_in_et_name?.text.toString()
             collegeName = sign_in_et_college_name?.text.toString()
             department = sign_in_et_department?.text.toString()
@@ -69,17 +70,16 @@ class SignInActivity : AppCompatActivity() {
                 validText = true
             }
 
+            // Check whether inputs are valid.
             if (validPhone && validText) {
                 this.phoneNumber = phoneNumber.toLong()
                 setupLoginButton()
             } else {
+                // Invalid input(s). Show message in Snackbar.
                 var errorMessage = ""
 
-                if (!validText)
-                    errorMessage = "Input length too small."
-
-                if (!validPhone)
-                    errorMessage += " Invalid phone number."
+                if (!validText)     errorMessage = "Input length too small. "
+                if (!validPhone)    errorMessage += "Invalid phone number."
 
                 Snackbar.make(sign_in_layout_main, errorMessage, Snackbar.LENGTH_SHORT).show()
             }
@@ -93,13 +93,13 @@ class SignInActivity : AppCompatActivity() {
         if (requestCode == RC_SIGN_IN) {
             try {
                 val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-                // Google Sign In was successful, authenticate with Firebase
+                // Google sign in was successful, authenticate with Firebase.
                 val account = task.getResult(ApiException::class.java)
                 Snackbar.make(sign_in_layout_main, "Please wait. Logging you in.", Snackbar.LENGTH_LONG).show()
                 firebaseAuthWithGoogle(account)
             } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.d(javaClass.name, "Google sign in failed", e)
+                // Google sign in failed, alert the user using Snackbar.
+                Log.d(javaClass.name, "Google sign in failed. Error: ${e.message}", e)
                 Snackbar.make(sign_in_layout_main, "Google sign in failed", Snackbar.LENGTH_SHORT).show()
             }
 
@@ -113,11 +113,11 @@ class SignInActivity : AppCompatActivity() {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
+                        // Sign in success, call function to store user's data to the Firestore database.
                         Log.d(javaClass.name, "signInWithCredential:success")
-                        storeDetailsAndExit()
+                        storeDataAndExit()
                     } else {
-                        // If sign in fails, display a message to the user.
+                        // Sign in failed, display a message to the user.
                         Log.w(javaClass.name, "signInWithCredential:failure", task.exception)
                         Snackbar.make(sign_in_layout_main, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
                     }
@@ -126,15 +126,17 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun setupLoginButton() {
+        // Hide "Confirm" button.
         account_btn_confirm.visibility = View.GONE
 
+        // Configure Google sign in.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.google_login_web_client_id))
                 .requestEmail()
                 .build()
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
+        // Setup Google login button.
         sign_in_btn_google?.apply {
             visibility = View.VISIBLE
             setOnClickListener {
@@ -145,14 +147,26 @@ class SignInActivity : AppCompatActivity() {
 
     }
 
-    private fun storeDetailsAndExit() {
+    private fun storeDataAndExit() {
+        /*
+         * Gets user's information and stores them in a Firestore database.
+         * After upload task is finished exit the activity.
+         */
+
+        fun handleFailure() {
+            // Sign out the user and exit the activity.
+            Toast.makeText(applicationContext, "Could not upload data.", Toast.LENGTH_SHORT).show()
+            mAuth.signOut()
+            finish()
+        }
+
         val userDetails = HashMap<String, Any>()
 
         try {
             val uuid = mAuth.currentUser!!.uid
-            val email = "${mAuth.currentUser!!.email}"
+            val mDocRef = FirebaseFirestore.getInstance().document("users/$uuid")
 
-            var mDocRef = FirebaseFirestore.getInstance().document("users/$uuid")
+            val email = "${mAuth.currentUser!!.email}"
 
             userDetails.put("name", name)
             userDetails.put("email", email)
@@ -164,18 +178,21 @@ class SignInActivity : AppCompatActivity() {
             mDocRef.set(userDetails).addOnCompleteListener(object : OnCompleteListener<Void> {
                 override fun onComplete(task: Task<Void>) {
                     if (task.isSuccessful) {
+                        // Data upload successful, exit the activity.
                         Log.d(javaClass.name, "Saved user data successfully.")
                         finish()
                     } else {
-                        Toast.makeText(applicationContext, "Unexpected error occurred.", Toast.LENGTH_SHORT).show()
-                        finish()
+                        // Data upload failed, call function that logs out the user and exits the activity.
+                        Log.d(javaClass.name, "Could not upload data.", task.exception)
+                        handleFailure()
                     }
                 }
             })
 
         } catch (e: Exception) {
-            Toast.makeText(applicationContext, "Unexpected error occurred.", Toast.LENGTH_SHORT).show()
-            finish()
+            // Exception Occurred, call function that logs out the user and exits the activity.
+            Log.d(javaClass.name, "Could not upload data. Exception: ${e.message}", e)
+            handleFailure()
         }
     }
 }
