@@ -41,7 +41,7 @@ class AccountFragment : Fragment() {
     private val RC_PERMISSION = 2001
 
     private var promoImage: Bitmap? = null
-    private var imageLabel: String? = ""
+    private var imageFileName: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_account, container, false)
@@ -249,17 +249,25 @@ class AccountFragment : Fragment() {
                 setImageUrl(promotionImageList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
                 addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
                     override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+                        // Promotion image loaded.
+
+                        // Show download icon and text.
+                        holder?.view?.promotion_image_img_download?.visibility = View.VISIBLE
+                        holder?.view?.promotion_image_txt_download?.visibility = View.VISIBLE
+
+                        // Configure download layout onClick.
                         holder?.view?.promotion_image_layout_download?.setOnClickListener {
 
-                            holder?.view?.promotion_image_img_promo?.buildDrawingCache()
-                            val promoImageBitmap = holder?.view?.promotion_image_img_promo?.drawingCache
+                            // Set image filename from image label.
+                            imageFileName = promotionImageList[position].label
 
-                            if (context != null) {
+                            // Save promotion image as bitmap
+                            holder?.view?.promotion_image_img_promo?.buildDrawingCache()
+                            promoImage = holder?.view?.promotion_image_img_promo?.drawingCache
+
+                            if (context != null && promoImage != null) {
 
                                 Log.d(javaClass.name, "Context is not null.")
-
-                                imageLabel = promotionImageList[position].label
-                                promoImage = promoImageBitmap!!
 
                                 val storageRead = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
                                 val storageWrite = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -277,37 +285,37 @@ class AccountFragment : Fragment() {
                             }
                         }
                     }
-                })
-            }
+            })
         }
     }
+}
 
-    private fun saveImage() {
-        /*
-         * Save (promotion) image in user's device.
-         * If save directory path doesn't exist, make required folders.
-         */
+private fun saveImage() {
+    /*
+     * Save (promotion) image in user's device.
+     * If save directory path doesn't exist, make required folders.
+     */
 
-        val fileName = "$imageLabel.png"
-        val filePath = "/Pictures/Prakarsh 2018"
+    val fileName = "$imageFileName.png"
+    val filePath = "/Pictures/Prakarsh 2018"
 
-        try {
-            val storage: File = Environment.getExternalStorageDirectory()
-            val dir = File(storage.absolutePath + filePath)
-            dir.mkdirs()
+    try {
+        val storage: File = Environment.getExternalStorageDirectory()
+        val dir = File(storage.absolutePath + filePath)
+        dir.mkdirs()
 
-            val outFile = File(dir, fileName)
-            val outStream = FileOutputStream(outFile)
+        val outFile = File(dir, fileName)
+        val outStream = FileOutputStream(outFile)
 
-            promoImage?.compress(Bitmap.CompressFormat.PNG, 100, outStream)
+        promoImage?.compress(Bitmap.CompressFormat.PNG, 100, outStream)
 
-            outStream.flush()
-            outStream.close()
+        outStream.flush()
+        outStream.close()
 
-            Snackbar.make(account_layout_main, "Image saved in $filePath", Snackbar.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            Log.d(javaClass.name, "Failed to save image. Exception: ${e.message}", e)
-            Snackbar.make(account_layout_main, "Could not save image.", Snackbar.LENGTH_SHORT).show()
-        }
+        Snackbar.make(account_layout_main, "Image saved in $filePath", Snackbar.LENGTH_SHORT).show()
+    } catch (e: Exception) {
+        Log.d(javaClass.name, "Failed to save image. Exception: ${e.message}", e)
+        Snackbar.make(account_layout_main, "Could not save image.", Snackbar.LENGTH_SHORT).show()
     }
+}
 }
