@@ -12,126 +12,11 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:theme="@style/Widget.AppCompat.ActionBar"
-        app:layout_constraintBottom_toTopOf="@id/account_card_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/event_name"
         app:titleTextColor="@android:color/primary_text_dark" />
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/account_card_info"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/account_toolbar_main">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_default">
-
-            <TextView
-                android:id="@+id/account_txt_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Third Year" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                app:cardCornerRadius="44dp"
-                app:cardElevation="2dp"
-                app:cardPreventCornerOverlap="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.android.volley.toolbox.NetworkImageView
-                    android:id="@+id/account_img_user"
-                    android:layout_width="88dp"
-                    android:layout_height="88dp"
-                    tools:scaleType="fitXY" />
-
-            </android.support.v7.widget.CardView>
-
-            <ImageButton
-                android:id="@+id/account_btn_logout"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="@dimen/margin_default"
-                android:layout_marginTop="@dimen/margin_default"
-                android:background="@android:color/transparent"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_exit_to_app_black"
-                tools:visibility="visible" />
-
-            <TextView
-                android:id="@+id/account_txt_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView"
-                tools:text="Firstname Lastname" />
-
-            <TextView
-                android:id="@+id/account_txt_college"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/account_txt_name"
-                tools:text="Sardar Vallabhbhai Patel Institute of Technology" />
-
-            <TextView
-                android:id="@+id/account_txt_department"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintEnd_toStartOf="@+id/account_guideline_vertical_center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/account_txt_college"
-                tools:text="Information Technology" />
-
-            <android.support.constraint.Guideline
-                android:id="@+id/account_guideline_vertical_center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <TextView
-                android:id="@+id/account_txt_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/account_guideline_vertical_center"
-                app:layout_constraintTop_toBottomOf="@+id/account_txt_college"
-                tools:text="Vadodara" />
-
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.CardView>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="0dp"
@@ -139,58 +24,181 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/account_card_info">
+        app:layout_constraintTop_toBottomOf="@id/account_toolbar_main">
 
-        <LinearLayout
-            android:id="@+id/account_layout_promotion"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/account_txt_promotion_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                android:layout_marginStart="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold"
-                tools:text="Promotion Rules" />
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/account_card_promotion"
-                android:layout_width="match_parent"
+                android:id="@+id/account_card_info"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                app:cardElevation="2dp"
-                tools:visibility="visible">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/account_txt_promotion_message"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_default"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    tools:text="A very long text goes here." />
+                    android:paddingBottom="@dimen/padding_default">
+
+                    <TextView
+                        android:id="@+id/account_txt_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Third Year" />
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cardView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
+                        android:clipChildren="true"
+                        android:clipToPadding="true"
+                        app:cardCornerRadius="44dp"
+                        app:cardElevation="2dp"
+                        app:cardPreventCornerOverlap="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.android.volley.toolbox.NetworkImageView
+                            android:id="@+id/account_img_user"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            tools:scaleType="fitXY" />
+
+                    </android.support.v7.widget.CardView>
+
+                    <ImageButton
+                        android:id="@+id/account_btn_logout"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginEnd="@dimen/margin_default"
+                        android:layout_marginTop="@dimen/margin_default"
+                        android:background="@android:color/transparent"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_exit_to_app_black"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/account_txt_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardView"
+                        tools:text="Firstname Lastname" />
+
+                    <TextView
+                        android:id="@+id/account_txt_college"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/account_txt_name"
+                        tools:text="Sardar Vallabhbhai Patel Institute of Technology" />
+
+                    <TextView
+                        android:id="@+id/account_txt_department"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:layout_constraintEnd_toStartOf="@+id/account_guideline_vertical_center"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/account_txt_college"
+                        tools:text="Information Technology" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/account_guideline_vertical_center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <TextView
+                        android:id="@+id/account_txt_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/account_guideline_vertical_center"
+                        app:layout_constraintTop_toBottomOf="@+id/account_txt_college"
+                        tools:text="Vadodara" />
+
+                </android.support.constraint.ConstraintLayout>
 
             </android.support.v7.widget.CardView>
 
-            <TextView
-                android:id="@+id/account_txt_promotion_images_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_default"
-                android:layout_marginStart="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold"
-                tools:text="Promotion Images" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/account_rv_promotion_images"
+            <LinearLayout
+                android:id="@+id/account_layout_promotion"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/account_card_info">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/account_txt_promotion_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold"
+                    tools:text="Promotion Rules" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/account_card_promotion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/account_txt_promotion_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_default"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        tools:text="A very long text goes here." />
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/account_txt_promotion_images_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:layout_marginStart="@dimen/margin_default"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold"
+                    tools:text="Promotion Images" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/account_rv_promotion_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
@@ -205,6 +213,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_card_info" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
