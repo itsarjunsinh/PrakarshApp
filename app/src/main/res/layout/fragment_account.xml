@@ -57,10 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_default"
-                        android:clipChildren="true"
-                        android:clipToPadding="true"
                         app:cardCornerRadius="44dp"
-                        app:cardElevation="2dp"
                         app:cardPreventCornerOverlap="false"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +67,7 @@
                             android:id="@+id/account_img_user"
                             android:layout_width="88dp"
                             android:layout_height="88dp"
-                            tools:scaleType="fitXY" />
+                            android:layout_gravity="center" />
 
                     </android.support.v7.widget.CardView>
 
@@ -168,8 +165,7 @@
                     android:id="@+id/account_card_promotion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_default"
-                    tools:visibility="visible">
+                    android:layout_margin="@dimen/margin_default">
 
                     <TextView
                         android:id="@+id/account_txt_promotion_message"
