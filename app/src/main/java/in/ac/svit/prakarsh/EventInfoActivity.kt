@@ -75,6 +75,7 @@ class EventInfoActivity : AppCompatActivity() {
                         var number = jsonArray.getJSONObject(i).getString("number")
                         if (jsonArray.getJSONObject(i).has("number")) {
                             number = jsonArray.getJSONObject(i).getString("number")
+                            number = number.replace(" ", "")
                         }
 
                         contactDetailsList.add(ContactDetails(name, number))
