@@ -14,9 +14,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_default"
-            android:text="Details"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_default"
             android:paddingStart="@dimen/padding_default"
+            android:text="Details"
             android:textSize="@dimen/textsize_subheader"
             android:textStyle="bold" />
 
@@ -24,17 +25,13 @@
             android:id="@+id/event_info_card_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_default"
-            android:paddingTop="@dimen/padding_default"
-            android:paddingBottom="@dimen/padding_default"
-            app:cardCornerRadius="@dimen/cardview_default_radius"
-            app:cardElevation="@dimen/cardview_default_elevation">
+            android:layout_margin="@dimen/margin_default">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/event_info_rv_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/padding_default"/>
+                android:layout_marginBottom="@dimen/margin_default"/>
 
         </android.support.v7.widget.CardView>
 
@@ -42,8 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_default"
-            android:text="Event Co-ordinators"
             android:paddingStart="@dimen/padding_default"
+            android:text="Event Co-ordinators"
             android:textSize="@dimen/textsize_subheader"
             android:textStyle="bold" />
 
@@ -64,7 +61,8 @@
                     android:id="@+id/event_info_rv_contact_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/padding_default" />
+                    android:clipChildren="false"
+                    android:clipToPadding="false" />
 
             </android.support.constraint.ConstraintLayout>
 
