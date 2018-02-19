@@ -15,7 +15,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.item_featured_speakers.view.*
+import kotlinx.android.synthetic.main.item_featured.view.*
 import org.json.JSONArray
 import java.util.*
 import kotlin.collections.ArrayList
@@ -84,20 +84,20 @@ class HomeFragment : Fragment() {
 
         VolleySingleton.getInstance(context?.applicationContext).requestQueue.add(req)
 
-        //Featured events section
+        // Featured events section
         url = context?.getString(R.string.url_featured)
         req = JsonObjectRequest(Request.Method.GET, url, null,
                 Response.Listener { response ->
                     Log.d(javaClass.name, "JSON Successfully fetched")
 
-                    val speakerList: ArrayList<Speaker> = ArrayList()
+                    val featuredSpeakerList: ArrayList<FeaturedItem> = ArrayList()
                     var featuredSpeakers = JSONArray()
 
-                    if(response.has("featuredSpeakers")){
+                    if (response.has("featuredSpeakers")) {
                         featuredSpeakers = response.getJSONArray("featuredSpeakers")
                     }
 
-                    for(i in 0..(featuredSpeakers.length() - 1)){
+                    for (i in 0..(featuredSpeakers.length() - 1)) {
 
                         var name = ""
                         if (featuredSpeakers.getJSONObject(i).has("name")) {
@@ -114,22 +114,22 @@ class HomeFragment : Fragment() {
                             description = featuredSpeakers.getJSONObject(i).getString("description")
                         }
 
-                        var imageUrl = ""
-                        if (featuredSpeakers.getJSONObject(i).has("imageUrl")) {
-                            imageUrl = featuredSpeakers.getJSONObject(i).getString("imageUrl")
-                        }
-
-                        var dataUrl = ""
+                        var dataUrl: String? = null
                         if (featuredSpeakers.getJSONObject(i).has("dataUrl")) {
                             dataUrl = featuredSpeakers.getJSONObject(i).getString("dataUrl")
                         }
 
-                        speakerList.add(Speaker(name, shortDescription, description, imageUrl, dataUrl))
+                        var imageUrl: String? = null
+                        if (featuredSpeakers.getJSONObject(i).has("imageUrl")) {
+                            imageUrl = featuredSpeakers.getJSONObject(i).getString("imageUrl")
+                        }
+
+                        featuredSpeakerList.add(FeaturedItem(name, shortDescription, description, dataUrl, imageUrl))
                     }
 
                     home_rv_featured_speakers?.apply {
                         layoutManager = LinearLayoutManager(context)
-                        adapter = SpeakerRecyclerAdapter(context, speakerList)
+                        adapter = FeaturedRecyclerAdapter(context, featuredSpeakerList)
                     }
 
                 }, Response.ErrorListener { error ->
@@ -174,8 +174,7 @@ class HomeFragment : Fragment() {
 
         if (remainingDays > 1) {
             remainingText = "$remainingDays Days\n"
-        }
-        else if (remainingDays == 1L) {
+        } else if (remainingDays == 1L) {
             remainingText = "$remainingDays Day\n"
         }
 
@@ -183,38 +182,47 @@ class HomeFragment : Fragment() {
         return remainingText
     }
 
-    private class Speaker(val name: String,val shortDescription: String, val description: String, val imageUrl: String, val dataUrl: String)
+    private class FeaturedItem(val heading: String, val subHeading: String, val description: String, val dataUrl: String? = null, val imageUrl: String? = null)
 
-    private class SpeakerRecyclerAdapter(private val context: Context?, private val speakerList: ArrayList<Speaker>): RecyclerView.Adapter<SpeakerRecyclerAdapter.CustomViewHolder>() {
+    private class FeaturedRecyclerAdapter(private val context: Context?, private val featuredItemList: ArrayList<FeaturedItem>) : RecyclerView.Adapter<FeaturedRecyclerAdapter.CustomViewHolder>() {
 
-        class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view)
+        class CustomViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
         override fun getItemCount(): Int {
-            return speakerList.size
+            return featuredItemList.size
         }
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CustomViewHolder {
             val layoutInflater = LayoutInflater.from(parent?.context)
-            val cellForRow = layoutInflater.inflate(R.layout.item_featured_speakers, parent, false)
+            val cellForRow = layoutInflater.inflate(R.layout.item_featured, parent, false)
             return CustomViewHolder(cellForRow)
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
-            holder?.view?.featured_speakers_txt_name?.text = speakerList[position].name
-            holder?.view?.featured_speakers_txt_short_description?.text = speakerList[position].shortDescription
-            holder?.view?.featured_speakers_txt_description?.text = speakerList[position].description
-            holder?.view?.featured_speakers_img_speaker?.apply {
-                setDefaultImageResId(R.drawable.ic_image_black)
-                setErrorImageResId(R.drawable.ic_broken_image_black)
-                setImageUrl(speakerList[position].imageUrl,VolleySingleton.getInstance(context).imageLoader)
+            holder?.view?.featured_txt_heading?.text = featuredItemList[position].heading
+            holder?.view?.featured_txt_subheading?.text = featuredItemList[position].subHeading
+            holder?.view?.featured_txt_description?.text = featuredItemList[position].description
+
+            if (featuredItemList[position].imageUrl != null) {
+                // Show image if image url exists.
+                holder?.view?.featured_card_image?.visibility = View.VISIBLE
+                holder?.view?.featured_img_speaker?.apply {
+                    setDefaultImageResId(R.drawable.ic_image_black)
+                    setErrorImageResId(R.drawable.ic_broken_image_black)
+                    setImageUrl(featuredItemList[position].imageUrl, VolleySingleton.getInstance(context).imageLoader)
+                }
             }
 
-            holder?.view?.setOnClickListener{
-                Log.d(javaClass.name,"${speakerList[position].name} Clicked")
-                var intent = Intent(context, EventInfoActivity::class.java)
-                intent.putExtra("url", speakerList[position].dataUrl)
-                context?.startActivity(intent)
+            if (featuredItemList[position].dataUrl != null) {
+                // Change to EventInfo activity on click event if data url exists.
+                holder?.view?.setOnClickListener {
+                    Log.d(javaClass.name, "${featuredItemList[position].heading} Clicked")
+                    val intent = Intent(context, EventInfoActivity::class.java)
+                    intent.putExtra("url", featuredItemList[position].dataUrl)
+                    context?.startActivity(intent)
+                }
             }
+
         }
     }
 }

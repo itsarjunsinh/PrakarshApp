@@ -12,16 +12,18 @@
         android:layout_margin="@dimen/margin_default" >
 
         <android.support.v7.widget.CardView
-            android:id="@+id/featured_speakers_card_image"
+            android:id="@+id/featured_card_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:cardCornerRadius="36dp"
-            app:cardPreventCornerOverlap="false" >
+            app:cardPreventCornerOverlap="false"
+            tools:visibility="visible">
 
             <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/featured_speakers_img_speaker"
+                android:id="@+id/featured_img_speaker"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:scaleType="centerCrop" />
@@ -29,51 +31,51 @@
         </android.support.v7.widget.CardView>
 
         <TextView
-            android:id="@+id/featured_speakers_txt_name"
+            android:id="@+id/featured_txt_heading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_default"
             android:textAlignment="textStart"
-            app:layout_constraintEnd_toStartOf="@+id/featured_speakers_txt_date"
-            app:layout_constraintStart_toEndOf="@+id/featured_speakers_card_image"
-            app:layout_constraintTop_toTopOf="@+id/featured_speakers_card_image"
+            app:layout_constraintEnd_toStartOf="@+id/featured_txt_date"
+            app:layout_constraintStart_toEndOf="@+id/featured_card_image"
+            app:layout_constraintTop_toTopOf="@+id/featured_card_image"
             tools:text="Name"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
         <TextView
-            android:id="@+id/featured_speakers_txt_short_description"
+            android:id="@+id/featured_txt_subheading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_default"
             android:textAlignment="textStart"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/featured_speakers_card_image"
-            app:layout_constraintTop_toBottomOf="@+id/featured_speakers_txt_name"
+            app:layout_constraintStart_toEndOf="@+id/featured_card_image"
+            app:layout_constraintTop_toBottomOf="@+id/featured_txt_heading"
             tools:text="Short Description"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textSize="@dimen/textsize_subheader"
             android:textStyle="italic"/>
 
         <TextView
-            android:id="@+id/featured_speakers_txt_description"
+            android:id="@+id/featured_txt_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/padding_default"
             android:textAlignment="textStart"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/featured_speakers_card_image"
-            app:layout_constraintTop_toBottomOf="@+id/featured_speakers_txt_short_description"
+            app:layout_constraintStart_toEndOf="@+id/featured_card_image"
+            app:layout_constraintTop_toBottomOf="@+id/featured_txt_subheading"
             android:textSize="@dimen/textsize_listitem_description"
             tools:text="Long Description" />
 
         <TextView
-            android:id="@+id/featured_speakers_txt_date"
+            android:id="@+id/featured_txt_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingEnd="@dimen/padding_default"
             android:textAlignment="textEnd"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/featured_speakers_card_image"
+            app:layout_constraintTop_toTopOf="@+id/featured_card_image"
             android:textSize="@dimen/textsize_listitem_description"
             tools:text="21/2/18" />
 
