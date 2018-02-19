@@ -145,18 +145,21 @@ class HomeFragment : Fragment() {
         val timeInterval = eventDate.timeInMillis - today.timeInMillis
 
         if (timeInterval > 1) {
+
+            // Show Timer if the event is yet to start.
+            home_txt_timer?.visibility = View.VISIBLE
+
             val countDown = object : CountDownTimer(timeInterval, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     home_txt_timer?.text = (remainingTimeText(millisUntilFinished))
                 }
 
                 override fun onFinish() {
+                    // When timer completed show finished text. Will only be shown once if the user sees the countdown go to 0.
                     home_txt_timer?.text = finishedText
                 }
             }
             countDown.start()
-        } else {
-            home_txt_timer?.text = finishedText
         }
     }
 
