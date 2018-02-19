@@ -29,6 +29,10 @@ class MainActivity : AppCompatActivity() {
                 startFragmentTransaction(EventsCategoryFragment())
                 return@OnNavigationItemSelectedListener true
             }
+            R.id.action_newsfeed -> {
+                startFragmentTransaction(NewsfeedFragment())
+                return@OnNavigationItemSelectedListener true
+            }
             R.id.action_home -> {
                 startFragmentTransaction(HomeFragment())
                 return@OnNavigationItemSelectedListener true
