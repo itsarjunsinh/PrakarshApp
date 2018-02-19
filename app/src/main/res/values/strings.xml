@@ -2,6 +2,7 @@
     <string name="app_name">Prakarsh</string>
     <string name="event_name">Prakarsh XIII</string>
     <string name="navigation_events">Events</string>
+    <string name="navigation_newsfeed">Newsfeed</string>
     <string name="navigation_home">Home</string>
     <string name="navigation_about">About</string>
     <string name="navigation_account">Account</string>

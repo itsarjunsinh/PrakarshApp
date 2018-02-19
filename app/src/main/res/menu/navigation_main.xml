@@ -5,6 +5,10 @@
         android:title="@string/navigation_events"
         android:icon="@drawable/ic_navigation_event_black"/>
     <item
+        android:id="@+id/action_newsfeed"
+        android:title="@string/navigation_newsfeed"
+        android:icon="@drawable/ic_dashboard_black"/>
+    <item
         android:id="@+id/action_home"
         android:title="@string/navigation_home"
         android:icon="@drawable/ic_navigation_home_black"/>
