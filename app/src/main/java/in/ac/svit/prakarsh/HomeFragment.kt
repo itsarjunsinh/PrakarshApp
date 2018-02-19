@@ -172,8 +172,11 @@ class HomeFragment : Fragment() {
         val remainingSeconds = (millisLeft % MINUTE) / SECOND
         var remainingText = ""
 
-        if (remainingDays > 0) {
+        if (remainingDays > 1) {
             remainingText = "$remainingDays Days\n"
+        }
+        else if (remainingDays == 1L) {
+            remainingText = "$remainingDays Day\n"
         }
 
         remainingText += String.format("%02d Hours : %02d Minutes: %02d Seconds", remainingHours, remainingMinutes, remainingSeconds)
