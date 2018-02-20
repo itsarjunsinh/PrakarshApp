@@ -75,7 +75,7 @@
         android:background="@color/colorPrimary"
         android:text="@string/about_sponsors"
         android:textColor="@android:color/primary_text_dark"
-        app:layout_constraintBottom_toTopOf="@id/about_btn_facebook"
+        app:layout_constraintBottom_toTopOf="@id/about_btn_maps"
         app:layout_constraintEnd_toStartOf="@+id/about_btn_team"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -87,9 +87,33 @@
         android:background="@color/colorPrimary"
         android:text="@string/about_team"
         android:textColor="@android:color/primary_text_dark"
-        app:layout_constraintBottom_toTopOf="@id/about_btn_instagram"
+        app:layout_constraintBottom_toTopOf="@id/about_btn_transportation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/about_btn_sponsors" />
+
+    <Button
+        android:id="@+id/about_btn_maps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:background="@color/colorMaps"
+        android:text="Google Maps"
+        android:textColor="@android:color/primary_text_dark"
+        app:layout_constraintBottom_toTopOf="@id/about_btn_facebook"
+        app:layout_constraintEnd_toStartOf="@+id/about_btn_transportation"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/about_btn_transportation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:background="@color/colorPrimary"
+        android:text="Transportation"
+        android:textColor="@android:color/primary_text_dark"
+        app:layout_constraintBottom_toTopOf="@id/about_btn_instagram"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/about_btn_maps" />
 
     <Button
         android:id="@+id/about_btn_facebook"
