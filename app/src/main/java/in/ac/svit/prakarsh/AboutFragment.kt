@@ -85,19 +85,18 @@ class AboutFragment : Fragment() {
                     }
 
                     // Set up Google Maps launch.
-                    if (response.has("mapsQuery")) {
+                    if (response.has("mapsAppQuery") && response.has("mapsWebUrl")) {
                         about_btn_maps?.setOnClickListener {
-                            val mapsQuery = response.getString("mapsQuery")
 
-                            val gmmIntentUri = Uri.parse("geo:0,0?q=$mapsQuery")
+                            val gmmIntentUri = Uri.parse(response.getString("mapsAppQuery"))
                             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                             mapIntent.`package` = "com.google.android.apps.maps"
 
-                            // If Google Maps app is installed open
+                            // If Google Maps app is installed open place in it otherwise open in web browser.
                             if (mapIntent.resolveActivity(context?.packageManager) != null) {
                                 startActivity(mapIntent)
                             } else {
-                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/?api=1&query=$mapsQuery")))
+                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(response.getString("mapsWebUrl"))))
                             }
                         }
                     }
