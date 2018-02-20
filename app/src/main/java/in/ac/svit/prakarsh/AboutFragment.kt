@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -78,6 +79,7 @@ class AboutFragment : Fragment() {
                                 startActivity(pdfBrowserIntent)
                             } catch (e: Exception) {
                                 Log.d(javaClass.name, "Exception occurred while opening pdf in web browser.", e)
+                                Toast.makeText(context, "No suitable application found to open file.", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
