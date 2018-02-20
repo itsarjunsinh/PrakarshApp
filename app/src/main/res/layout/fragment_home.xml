@@ -67,13 +67,29 @@
                     tools:visibility="visible" />
 
                 <TextView
+                    android:id="@+id/home_txt_featured_events"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_default"
                     android:padding="@dimen/padding_default"
-                    android:text="Featured Speakers"
                     android:textSize="@dimen/textsize_subheader"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="Featured Events" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/home_rv_featured_events"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/home_txt_featured_speakers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_default"
+                    android:padding="@dimen/padding_default"
+                    android:textSize="@dimen/textsize_subheader"
+                    android:textStyle="bold"
+                    tools:text="Featured Speakers" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/home_rv_featured_speakers"
