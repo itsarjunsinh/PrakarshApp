@@ -40,7 +40,7 @@ class AboutFragment : Fragment() {
         }
 
         about_btn_transportation?.setOnClickListener {
-            startActivity(Intent(context, TransportationActivity::class.java))
+            // Todo Open Transportation PDF
         }
     }
 

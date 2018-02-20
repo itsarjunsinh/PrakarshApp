@@ -50,10 +50,6 @@
             android:name=".SignInActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".TransportationActivity"
-            android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>
