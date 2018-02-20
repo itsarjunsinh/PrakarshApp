@@ -26,7 +26,16 @@ class EventsSubcategoryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_events_subcategory)
         Log.d(javaClass.name, "Started")
 
-        updateViewsFromJson(intent.getStringExtra("url"))
+        // If dataUrl is received load views otherwise go to Main Activity.
+        val dataUrl = intent.getStringExtra("url")
+        if (dataUrl != null) {
+            updateViewsFromJson(dataUrl)
+        } else {
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun updateViewsFromJson(url: String) {
