@@ -38,6 +38,10 @@ class AboutFragment : Fragment() {
         about_btn_sponsors?.setOnClickListener {
             startActivity(Intent(context, SponsorsActivity::class.java))
         }
+
+        about_btn_transportation?.setOnClickListener {
+            startActivity(Intent(context, TransportationActivity::class.java))
+        }
     }
 
     private fun updateViewsFromJson() {
@@ -49,14 +53,11 @@ class AboutFragment : Fragment() {
                     Log.d(javaClass.name, "JSON Successfully fetched")
 
                     if (response.has("about")) {
+                        // Display about Prakarsh text.
                         about_txt_description?.text = response["about"]?.toString()
                     }
 
-                    about_img_video?.apply {
-                        setDefaultImageResId(R.drawable.ic_image_black)
-                        setErrorImageResId(R.drawable.ic_broken_image_black)
-                    }
-
+                    // Set up YouTube Video Thumbnail and launch video when clicked.
                     if (response.has("youtubeVideoId")) {
                         val youtubeVideoId = response["youtubeVideoId"].toString()
 
@@ -66,12 +67,12 @@ class AboutFragment : Fragment() {
                                 launchYouTube(youtubeVideoId)
                             }
                         }
-
                         about_img_play?.setOnClickListener {
                             launchYouTube(youtubeVideoId)
                         }
                     }
 
+                    // Set up Google Maps launch.
                     if (response.has("mapsQuery")) {
                         about_btn_maps?.setOnClickListener {
                             val mapsQuery = response.getString("mapsQuery")
@@ -80,6 +81,7 @@ class AboutFragment : Fragment() {
                             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                             mapIntent.`package` = "com.google.android.apps.maps"
 
+                            // If Google Maps app is installed open
                             if (mapIntent.resolveActivity(context?.packageManager) != null) {
                                 startActivity(mapIntent)
                             } else {
@@ -88,6 +90,7 @@ class AboutFragment : Fragment() {
                         }
                     }
 
+                    // Set up Facebook Page launch.
                     if (response.has("facebookId") && response.has("facebookUrl")) {
                         about_btn_facebook?.setOnClickListener {
                             val facebookId = response.getString("facebookId")
@@ -96,6 +99,7 @@ class AboutFragment : Fragment() {
                         }
                     }
 
+                    // Set up Instagram page launch.
                     if (response.has("instagramUrl")) {
                         about_btn_instagram?.setOnClickListener {
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(response.getString("instagramUrl"))))
