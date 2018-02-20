@@ -72,6 +72,22 @@ class AboutFragment : Fragment() {
                         }
                     }
 
+                    if (response.has("mapsQuery")) {
+                        about_btn_maps?.setOnClickListener {
+                            val mapsQuery = response.getString("mapsQuery")
+
+                            val gmmIntentUri = Uri.parse("geo:0,0?q=$mapsQuery")
+                            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                            mapIntent.`package` = "com.google.android.apps.maps"
+
+                            if (mapIntent.resolveActivity(context?.packageManager) != null) {
+                                startActivity(mapIntent)
+                            } else {
+                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/?api=1&query=$mapsQuery")))
+                            }
+                        }
+                    }
+
                     if (response.has("facebookId") && response.has("facebookUrl")) {
                         about_btn_facebook?.setOnClickListener {
                             val facebookId = response.getString("facebookId")
