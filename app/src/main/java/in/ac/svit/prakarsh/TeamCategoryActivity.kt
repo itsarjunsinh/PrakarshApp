@@ -28,7 +28,7 @@ class TeamCategoryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_team_category)
         Log.d(javaClass.name, "Started")
 
-        supportActionBar?.title = getString(R.string.activity_title_team_category)
+        supportActionBar?.title = getString(R.string.title_team)
         updateViewFromJson()
     }
 
