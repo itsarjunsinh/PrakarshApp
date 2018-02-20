@@ -39,9 +39,6 @@ class AboutFragment : Fragment() {
             startActivity(Intent(context, SponsorsActivity::class.java))
         }
 
-        about_btn_transportation?.setOnClickListener {
-            // Todo Open Transportation PDF
-        }
     }
 
     private fun updateViewsFromJson() {
@@ -69,6 +66,19 @@ class AboutFragment : Fragment() {
                         }
                         about_img_play?.setOnClickListener {
                             launchYouTube(youtubeVideoId)
+                        }
+                    }
+
+                    // Open Transportation PDF in web browser
+                    if (response.has("transportationPdfUrl")) {
+                        about_btn_transportation?.setOnClickListener {
+                            try {
+                                val pdfBrowserIntent = Intent(Intent.ACTION_VIEW)
+                                pdfBrowserIntent.data = Uri.parse(response.getString("transportationPdfUrl"))
+                                startActivity(pdfBrowserIntent)
+                            } catch (e: Exception) {
+                                Log.d(javaClass.name, "Exception occurred while opening pdf in web browser.", e)
+                            }
                         }
                     }
 
