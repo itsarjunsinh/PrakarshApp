@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
         var url = context?.getString(R.string.url_main)
         var req = JsonObjectRequest(Request.Method.GET, url, null,
                 Response.Listener { response ->
-                    Log.d(javaClass.name, "JSON Successfully fetched")
+                    Log.d(javaClass.name, "Main JSON Successfully fetched")
 
                     val prakarshDate = Calendar.getInstance()
                     var year = 0
@@ -81,61 +81,60 @@ class HomeFragment : Fragment() {
                 }, Response.ErrorListener { error ->
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
-
         VolleySingleton.getInstance(context?.applicationContext).requestQueue.add(req)
 
-        // Featured events section
+        // Featured events & speakers section.
         url = context?.getString(R.string.url_featured)
         req = JsonObjectRequest(Request.Method.GET, url, null,
                 Response.Listener { response ->
-                    Log.d(javaClass.name, "JSON Successfully fetched")
+                    Log.d(javaClass.name, "Featured JSON Successfully fetched")
 
-                    val featuredSpeakerList: ArrayList<FeaturedItem> = ArrayList()
-                    var featuredSpeakers = JSONArray()
+                    // Get featured events & speakers label and get boolean for checking whether they should be displayed.
+                    var showFeaturedEvents = false
+                    var showFeaturedSpeakers = false
+                    var featuredEventsLabel = ""
+                    var featuredSpeakersLabel = ""
 
-                    if (response.has("featuredSpeakers")) {
-                        featuredSpeakers = response.getJSONArray("featuredSpeakers")
+                    if (response.has("show") && response.has("labels")) {
+                        if (response.getJSONObject("show").has("featuredEvents") && response.getJSONObject("labels").has("featuredEvents")) {
+                            showFeaturedEvents = response.getJSONObject("show").getBoolean("featuredEvents")
+                            featuredEventsLabel = response.getJSONObject("labels").getString("featuredEvents")
+                        }
+                        if (response.getJSONObject("show").has("featuredSpeakers") && response.getJSONObject("labels").has("featuredSpeakers")) {
+                            showFeaturedSpeakers = response.getJSONObject("show").getBoolean("featuredSpeakers")
+                            featuredSpeakersLabel = response.getJSONObject("labels").getString("featuredSpeakers")
+                        }
                     }
 
-                    for (i in 0..(featuredSpeakers.length() - 1)) {
+                    // Featured events section.
+                    if (showFeaturedEvents) {
+                        home_txt_featured_events?.text = featuredEventsLabel
 
-                        var name = ""
-                        if (featuredSpeakers.getJSONObject(i).has("name")) {
-                            name = featuredSpeakers.getJSONObject(i).getString("name")
+                        if (response.has("featuredEvents")) {
+                            val featuredEvents = response.getJSONArray("featuredEvents")
+                            home_rv_featured_events?.apply {
+                                layoutManager = LinearLayoutManager(context)
+                                adapter = FeaturedRecyclerAdapter(context, getFeaturedList(featuredEvents))
+                            }
                         }
-
-                        var shortDescription = ""
-                        if (featuredSpeakers.getJSONObject(i).has("shortDescription")) {
-                            shortDescription = featuredSpeakers.getJSONObject(i).getString("shortDescription")
-                        }
-
-                        var description = ""
-                        if (featuredSpeakers.getJSONObject(i).has("description")) {
-                            description = featuredSpeakers.getJSONObject(i).getString("description")
-                        }
-
-                        var dataUrl: String? = null
-                        if (featuredSpeakers.getJSONObject(i).has("dataUrl")) {
-                            dataUrl = featuredSpeakers.getJSONObject(i).getString("dataUrl")
-                        }
-
-                        var imageUrl: String? = null
-                        if (featuredSpeakers.getJSONObject(i).has("imageUrl")) {
-                            imageUrl = featuredSpeakers.getJSONObject(i).getString("imageUrl")
-                        }
-
-                        featuredSpeakerList.add(FeaturedItem(name, shortDescription, description, dataUrl, imageUrl))
                     }
 
-                    home_rv_featured_speakers?.apply {
-                        layoutManager = LinearLayoutManager(context)
-                        adapter = FeaturedRecyclerAdapter(context, featuredSpeakerList)
+                    // Featured speakers section.
+                    if (showFeaturedSpeakers) {
+                        home_txt_featured_speakers?.text = featuredSpeakersLabel
+
+                        if (response.has("featuredSpeakers")) {
+                            val featuredSpeakers = response.getJSONArray("featuredSpeakers")
+                            home_rv_featured_speakers?.apply {
+                                layoutManager = LinearLayoutManager(context)
+                                adapter = FeaturedRecyclerAdapter(context, getFeaturedList(featuredSpeakers))
+                            }
+                        }
                     }
 
                 }, Response.ErrorListener { error ->
             Log.d(javaClass.name, "Volley Response Error Occurred, URL: $url Error: ${error.message}")
         })
-
         VolleySingleton.getInstance(context?.applicationContext).requestQueue.add(req.setShouldCache(false))
     }
 
@@ -169,23 +168,67 @@ class HomeFragment : Fragment() {
         val HOUR = MINUTE * 60
         val DAY = HOUR * 24
 
+        // Convert remaining milliseconds to human comprehensible form.
         val remainingDays = (millisLeft / DAY)
         val remainingHours = (millisLeft % DAY) / HOUR
         val remainingMinutes = (millisLeft % HOUR) / MINUTE
         val remainingSeconds = (millisLeft % MINUTE) / SECOND
-        var remainingText = ""
 
+        // Generate the text to be displayed in the timer.
+        var remainingText = ""
         if (remainingDays > 1) {
             remainingText = "$remainingDays Days\n"
         } else if (remainingDays == 1L) {
             remainingText = "$remainingDays Day\n"
         }
-
         remainingText += String.format("%02d Hours : %02d Minutes: %02d Seconds", remainingHours, remainingMinutes, remainingSeconds)
+
         return remainingText
     }
 
-    private class FeaturedItem(val heading: String, val subHeading: String, val description: String, val dataUrl: String? = null, val imageUrl: String? = null)
+    private class FeaturedItem(var heading: String = "", var subHeading: String = "", var description: String = "", var dataUrl: String? = null, var imageUrl: String? = null, var date: String = "", var time: String = "")
+
+    private fun getFeaturedList(jsonArray: JSONArray): ArrayList<FeaturedItem> {
+
+        val featuredList = ArrayList<FeaturedItem>()
+
+        for (i in 0..(jsonArray.length() - 1)) {
+
+            val featuredEventsItem = FeaturedItem()
+
+            if (jsonArray.getJSONObject(i).has("name")) {
+                featuredEventsItem.heading = jsonArray.getJSONObject(i).getString("name")
+            }
+
+            if (jsonArray.getJSONObject(i).has("shortDescription")) {
+                featuredEventsItem.subHeading = jsonArray.getJSONObject(i).getString("shortDescription")
+            }
+
+            if (jsonArray.getJSONObject(i).has("description")) {
+                featuredEventsItem.description = jsonArray.getJSONObject(i).getString("description")
+            }
+
+            if (jsonArray.getJSONObject(i).has("dataUrl")) {
+                featuredEventsItem.dataUrl = jsonArray.getJSONObject(i).getString("dataUrl")
+            }
+
+            if (jsonArray.getJSONObject(i).has("imageUrl")) {
+                featuredEventsItem.imageUrl = jsonArray.getJSONObject(i).getString("imageUrl")
+            }
+
+            if (jsonArray.getJSONObject(i).has("date")) {
+                featuredEventsItem.date = jsonArray.getJSONObject(i).getString("date")
+            }
+
+            if (jsonArray.getJSONObject(i).has("time")) {
+                featuredEventsItem.time = jsonArray.getJSONObject(i).getString("time")
+            }
+
+            featuredList.add(featuredEventsItem)
+        }
+
+        return featuredList
+    }
 
     private class FeaturedRecyclerAdapter(private val context: Context?, private val featuredItemList: ArrayList<FeaturedItem>) : RecyclerView.Adapter<FeaturedRecyclerAdapter.CustomViewHolder>() {
 
@@ -202,9 +245,13 @@ class HomeFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder?, position: Int) {
+
+            // Show event info text.
             holder?.view?.featured_txt_heading?.text = featuredItemList[position].heading
             holder?.view?.featured_txt_subheading?.text = featuredItemList[position].subHeading
             holder?.view?.featured_txt_description?.text = featuredItemList[position].description
+            holder?.view?.featured_txt_date?.text = featuredItemList[position].date
+            holder?.view?.featured_txt_time?.text = featuredItemList[position].time
 
             if (featuredItemList[position].imageUrl != null) {
                 // Show image if image url exists.
