@@ -37,7 +37,7 @@ class NewsfeedFragment : Fragment() {
             if (task.isSuccessful) {
                 val postList = ArrayList<Post>()
 
-                for (document in task.result) {
+                for (document in task.result.reversed()) {
 
                     var caption = ""
                     if (document.contains("caption")) {
