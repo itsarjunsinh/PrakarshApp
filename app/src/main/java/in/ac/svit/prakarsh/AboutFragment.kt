@@ -28,16 +28,21 @@ class AboutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         updateViewsFromJson()
+
         about_btn_team?.setOnClickListener {
             startActivity(Intent(context, TeamCategoryActivity::class.java))
         }
+
         about_btn_sponsors?.setOnClickListener {
             startActivity(Intent(context, SponsorsActivity::class.java))
         }
     }
 
     private fun updateViewsFromJson() {
+
+        // Fetch data from JSON
         var url: String? = context?.getString(R.string.url_about)
         val req = JsonObjectRequest(Request.Method.GET, url, null,
                 Response.Listener { response ->
@@ -67,13 +72,15 @@ class AboutFragment : Fragment() {
                         }
                     }
 
-                    if(response.has("facebookUrl")) {
+                    if (response.has("facebookId") && response.has("facebookUrl")) {
                         about_btn_facebook?.setOnClickListener {
-                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(response.getString("facebookUrl"))))
+                            val facebookId = response.getString("facebookId")
+                            val facebookUrl = response.getString("facebookUrl")
+                            launchFacebook(facebookId, facebookUrl)
                         }
                     }
 
-                    if(response.has("instagramUrl")) {
+                    if (response.has("instagramUrl")) {
                         about_btn_instagram?.setOnClickListener {
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(response.getString("instagramUrl"))))
                         }
@@ -87,8 +94,18 @@ class AboutFragment : Fragment() {
     }
 
     private fun launchYouTube(videoId: String) {
-        var intent = Intent(Intent.ACTION_VIEW)
-        intent.setData(Uri.parse("https://youtube.com/watch?v=$videoId"))
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse("https://youtube.com/watch?v=$videoId")
         startActivity(intent)
+    }
+
+    private fun launchFacebook(facebookId: String, facebookUrl: String) {
+        // If Facebook app is installed open Prakarsh Facebook page in the app else open page in browser.
+        try {
+            context?.packageManager?.getPackageInfo("com.facebook.katana", 0)
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/$facebookId")))
+        } catch (e: Exception) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(facebookUrl)))
+        }
     }
 }
