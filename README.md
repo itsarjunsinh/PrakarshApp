@@ -17,6 +17,7 @@ This app uses JSON files from [PrakarshJSON](https://github.com/SvitPrakarsh/Pra
 
 ## Links
 
+[Watch App Demo](https://youtu.be/x95fZO5y7Ek) | 
 [Play Store](https://play.google.com/store/apps/details?id=in.ac.svit.prakarsh) |	
 [Github Releases](https://github.com/itsarjunsinh/PrakarshApp/releases)
 
