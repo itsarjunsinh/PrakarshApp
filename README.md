@@ -1,10 +1,34 @@
 # PrakarshApp
-Application for [Prakarsh XIII (2018)](https://prakarsh.org) Fest.
+Application for Prakarsh XIII (2018) Fest.
+
+This app uses JSON files from [PrakarshJSON](https://github.com/SvitPrakarsh/PrakarshJSON) project hosted with Github Pages.
+
+## Home and About
+
+<span>
+<img src="assets/Home.png" height="350" alt="Home Screen with countdown">
+<img src="assets/About.png" height="350" alt="About Prakarsh Screen">
+</span>
+
+## Events
+
+<span>
+<img src="assets/Events.png" height="350" alt="Event Category Screen">
+<img src="assets/Events2.png" height="350" alt="Event List Screen">
+<img src="assets/Events3.png" height="350" alt="Event Info Screen">
+</span>
+
+## Account and News
+
+<span>
+<img src="assets/Account.png" height="350" alt="Account Screen">
+<img src="assets/News.png" height="350" alt="Social Media Updates Screen">
+</span>
+
+## Links
 
 [Play Store](https://play.google.com/store/apps/details?id=in.ac.svit.prakarsh) |	
 [Github Releases](https://github.com/itsarjunsinh/PrakarshApp/releases)
-
-This app uses JSON files from [PrakarshJSON](https://github.com/SvitPrakarsh/PrakarshJSON) project hosted with Github Pages.
 
 ## Firebase Configuration
 
